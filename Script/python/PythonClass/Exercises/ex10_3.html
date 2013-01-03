@@ -1,0 +1,211 @@
+<html>
+<head>
+<title>Python Training Exercises - Exercise 10.3</title>
+</head>
+
+<body>
+<h1>Exercise 10.3</h1>
+
+<table width=600 bgcolor="#e0e0ff" border=1 cellpadding=20>
+<tr>
+<td>
+<b>Objectives:</b>
+<ul>
+<li>Playing with closures
+</ul>
+<p>
+<b>Files Created:</b> <tt>typedproperty.py</tt>
+
+<p>
+<b>Files Modified:</b> None
+
+</td>
+</tr>
+</table>
+
+
+<p>
+<b>(a) Closures and delayed evaluation</b>
+<p>
+
+<P>
+In earlier exercises, we used the <tt>urllib.urlopen()</tt> function
+to open a series of web pages.  For example, from <a
+href="ex1_6.html">Exercise 1.6</a>,
+
+<blockquote>
+<pre>
+>>> <b>import urllib</b>
+>>> <b>u = urllib.urlopen("http://finance.yahoo.com/d/quotes.csv?s=@^DJI&f=sl1")</b>
+>>> <b>for line in u:</b>
+           <b>print line,</b>
+  
+... look at the output ...
+>>>
+</pre>
+</blockquote>
+
+<p>
+Let's try a little trick with closures.  Define this function:</p>
+
+<blockquote>
+<pre>
+>>> <b>def make_opener(urltemplate):
+           def open(**kwargs):
+                return urllib.urlopen(urltemplate.format(**kwargs))
+           return open</b>
+
+>>>
+</pre>
+</blockquote>
+
+<p>
+How does this function work?  Well, it a nutshell, it takes a URL
+template string and defines a function <tt>open()</tt> that opens
+up a page with keyword argument substitutions. The <tt>format()</tt>
+method of strings is being used to substitute values in the
+<tt>urltemplate</tt> variable. Here's how you use
+it (please note that the <tt>sl1</tt> in these urls is the letter "s",
+the lowercase letter "L", and the number "1"):</p>
+
+<blockquote>
+<pre>
+>>> <b>yahoo =make_opener("http://finance.yahoo.com/d/quotes.csv?s={names}&f={fields}")</b>
+>>> <b>u = yahoo(names="IBM",fields="sl1")</b>
+>>> <b>print u.read()</b>
+"IBM",128.48
+
+>>> <b>u = yahoo(names="IBM,AIG,AAPL",fields="sl1c1v")</b>
+>>> <b>print u.read()</b>
+"IBM",128.48,-0.45,5152058
+"AIG",39.69,+3.78,34245960
+"AAPL",240.60,+1.06,22102376
+
+>>> <b>u = yahoo(names="@^DJI",fields="sl1c1")</b>
+>>> <b>print u.read()</b>
+"AA",14.74,-0.29
+"AXP",42.37,-0.75
+"BA",72.10,-0.26
+"BAC",18.62,+0.13
+"CAT",64.47,-0.82
+"CSCO",26.34,+0.12
+"CVX",77.37,-0.51
+...
+>>>
+</pre>
+</blockquote>
+
+<p>
+That's kind of neat--notice how the amount of typing is greatly reduced because you no longer have to
+specify the entire URL.  The actual URL is stored inside the <tt>yahoo()</tt> function that was created.
+This is the essence of a closure.  It's a function that carries all of the extra variables that it needs
+to run.  In this case, it holds on to the <tt>urltemplate</tt> that was passed.</p>
+
+<p>
+Also note that the evaluation of the <tt>open()</tt> function that's created is delayed until
+the user starts using the function.  It's important to stress that <tt>make_opener()</tt> doesn't
+do any work other than create the opening function for later use.
+</p>
+
+<p>
+<b>(b) Closures as a kind of "macro"</b>
+</p>
+
+<p>
+One of the more powerful features of closures is their use in
+generating repetitive code.  If you refer back to exercise <a
+href="ex6_2.html">Exercise 6.2</a>, recall the code for defining a
+property with type checking.</p>
+
+<blockquote>
+<table><tr><td>
+  <pre>
+class Stock(object):
+    def __init__(self,name,shares,price):
+        self.name = name
+        self.shares = shares
+        self.price = price
+   ...
+    @property
+    def shares(self):
+        return self._shares
+
+    @shares.setter
+    def shares(self,value):
+        if not isinstance(value,int):
+            raise TypeError("Expected int")
+        self._shares = value
+    ...
+</pre></td></tr></table>
+</blockquote>
+
+<p>Instead of repeatedly typing that code over and over again, you can
+automatically create it using a closure.</p>
+<p>
+Make a file <tt>typedproperty.py</tt> and put the following code in
+it:</p>
+
+<blockquote>
+<table><tr><td>
+  <pre>
+# typedproperty.py
+
+def typedproperty(name,expected_type):
+    storage_name = "_" + name
+    @property
+    def prop(self):
+        return getattr(self,storage_name)
+
+    @prop.setter
+    def prop(self,value):
+        if not isinstance(value, expected_type):
+            raise TypeError("Expected %s" % expected_type)
+        setattr(self,storage_name,value)
+
+    return prop
+</pre></td></tr></table>
+</blockquote>
+
+<p>
+Now, try it out by defining a class like this:
+</p>
+
+<blockquote>
+<table><tr><td>
+  <pre>
+from typedproperty import typedproperty
+
+class Stock(object):
+    name = typedproperty("name",str)
+    shares = typedproperty("shares",int)
+    price = typedproperty("price", float)
+
+    def __init__(self,name,shares,price):
+        self.name = name
+        self.shares = shares
+        self.price = price
+</pre></td></tr></table>
+</blockquote>
+
+<p>
+Try creating an instance and verifying that type-checking works.
+</p>
+
+<blockquote>
+<pre>
+>>> <b>s = Stock('IBM',50,91.1)</b>
+>>> <b>s.name</b>
+'IBM'
+>>> <b>s.shares = 'a lot'</b>
+... should get a TypeError ...
+>>>
+</pre>
+</blockquote>
+
+
+<hr>
+[ <a href="index.html">Index</a> | <a
+href="soln10_3.html">Solution</a>
+| <a href="ex10_2.html">Back</a> | <a href="ex10_4.html">Next</a> ]
+</body>
+</html>

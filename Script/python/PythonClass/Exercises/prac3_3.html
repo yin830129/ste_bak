@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>Practicum - Exercise 3.3</title>
+</head>
+
+<body>
+<h1>Practicum - Exercise 3.3</h1>
+
+<p>
+Modify the <tt>parse()</tt> function to accept an optional argument
+<tt>missing</tt> that allows the user to specify the values to use
+for fields where the value can't be converted in the input data. For
+example:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>portfolio = parse(open("Data/portfolio3.dat"),[str,int,float],missing=["",0,0])</b>
+>>> <b>for s in portfolio:</b>
+       print s</b>
+('AA', 15, 39.48)
+('AXP', 10, 62.58)
+('BA', 5, 98.31)
+<font color="#0000ff"><b>('C', 0, 53.08)</b>            # Note: Bad shares of '-' replaced by 0</font>
+('CAT', 15, 78.29)
+...
+>>>
+</pre>
+</blockquote>
+
+<p>
+In this example, if a <tt>ValueError</tt> exception occurs while converting any field of data, that field's value should be set to the corresponding value in the <tt>missing</tt> specifier.   If the <tt>missing</tt> argument is not given, your function should
+ignore bad input lines as it did before.
+</p>
+
+</body>
+</html>

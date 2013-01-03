@@ -1,0 +1,370 @@
+<html>
+<head>
+<title>Python Training Exercises - Exercise 1.5</title>
+</head>
+
+<body>
+<h1>Exercise 1.5</h1>
+
+<table width=600 bgcolor="#e0e0ff" border=1 cellpadding=20>
+<tr>
+<td>
+<b>Objectives:</b>
+<ul>
+<li>How to create and manipulate lists/arrays of values.
+<li>Continued use of Python's interactive mode as a tool for experimentation.
+</ul>
+<p>
+<b>Files Created:</b> None
+
+</td>
+</tr>
+</table>
+
+<p>
+In this exercise, we experiment with Python's list datatype.  In the last exericse, you worked with
+strings containing stock symbols.  For example:</p>
+
+<blockquote>
+<pre>
+>>> <b>symbols = 'HPQ AAPL IBM MSFT YHOO  GOOG'</b>
+>>>
+</pre>
+</blockquote>
+<p>
+Define the above variable and split it into a list of names using the <tt>split()</tt> operation of strings:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>symlist = symbols.split()</b>
+>>> <b>symlist</b>
+['HPQ', 'AAPL', 'IBM', 'MSFT', 'YHOO', 'GOOG' ]
+>>>
+</pre>
+</blockquote>
+
+<p>
+<b>(a) Extracting and reassigning list elements</b>
+
+<p>
+Lists work like arrays where you can look up and
+modify elements by numerical index.   Try a few lookups:</p>
+
+<blockquote>
+<pre>
+>>> <b>symlist[0]</b>
+'HPQ'
+>>> <b>symlist[1]</b>
+'AAPL'
+>>> <b>symlist[-1]</b>
+'GOOG'
+>>> <b>symlist[-2]</b>
+'YHOO'
+>>>
+</pre>
+</blockquote>
+
+<p>
+Try reassigning one of the items:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>symlist[2] = 'AIG'</b>
+>>> <b>symlist</b>
+['HPQ', 'AAPL', 'AIG', 'MSFT', 'YHOO', 'GOOG' ]
+>>>
+</pre>
+</blockquote>
+
+<p>
+Take a slice:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>symlist[0:3]</b>
+['HPQ', 'AAPL', 'AIG']
+>>>
+</pre>
+</blockquote>
+
+<p>
+Try an equality test:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>symlist[0:3] == ['HPQ','AAPL','AIG']</b>
+True
+>>>
+</pre>
+</blockquote>
+<P>
+Note that two lists are equal if they have the same size and contain
+the same elements.
+</p>
+
+
+<p>
+<b>(b) Looping over list items</b>
+
+<p>
+The <tt>for</tt> loop works by looping over data in a sequence such as a list.   Check this out
+by typing the following loop and watching what happens:</p>
+
+<blockquote>
+<pre>
+>>> <b>for s in symlist:</b>
+        <b>print 's =', s</b>
+
+... look at the output ...
+</pre>
+</blockquote>
+
+<p>
+<b>(c) Membership tests</b>
+
+<p>
+Use the <tt>in</tt> operator to check if 'AIG','AA', and 'CAT' are in the list of symbols.</p>
+
+<blockquote>
+<pre>
+>>> <b>'AIG' in symlist</b>
+True
+>>> <b>'AA' in symlist</b>
+False
+>>> <b>'CAT' in symlist</b>
+False
+>>>
+</pre>
+</blockquote>
+
+<p>
+<b>(d) Appending, inserting, and deleting items</b>
+
+<p>
+Use the <tt>append()</tt> method to add the symbol 'RHT' to end of <tt>symlist</tt>.  </p>
+
+<blockquote>
+<pre>
+>>> <b>symlist.append('RHT')</b>
+>>> <b>symlist</b>
+['HPQ','AAPL','AIG','MSFT','YHOO','GOOG','RHT']
+>>> 
+</pre>
+</blockquote>
+
+<p>
+Use the <tt>insert()</tt> method to
+insert the symbol 'AA' as the second item in the list.
+</p>
+
+<blockquote>
+<pre>
+>>> <b>symlist.insert(1,'AA')</b>
+>>> <b>symlist</b>
+['HPQ','AA','AAPL','AIG','MSFT','YHOO','GOOG','RHT']
+>>>
+</pre>
+</blockquote>
+
+<p>
+Use the <tt>remove()</tt> method to remove 'MSFT' from the list. 
+</p>
+
+<blockquote>
+<pre>
+>>> <b>symlist.remove('MSFT')</b>
+>>> <b>symlist</b>
+['HPQ','AA','AAPL','AIG','YHOO','GOOG','RHT']
+</pre>
+</blockquote>
+
+<p>
+Append a duplicate entry for 'YHOO' at the end of the list.</p>
+
+<blockquote>
+<pre>
+>>> <b>symlist.append('YHOO')</b>
+>>> <b>symlist</b>
+['HPQ','AA','AAPL','AIG','YHOO','GOOG','RHT','YHOO']
+>>>
+</pre>
+</blockquote>
+
+<p>
+Use the <tt>index()</tt> method to find the first position of 'YHOO' in the list.
+</p>
+
+<blockquote>
+<pre>
+>>> <b>symlist.index('YHOO')</b>
+4
+>>> <b>symlist[4]</b>
+'YHOO'
+>>>
+</pre>
+</blockquote>
+
+<p>
+Count how many times 'YHOO' is in the list:</p>
+
+<blockquote>
+<pre>
+>>> <b>symlist.count('YHOO')</b>
+2
+>>>
+</pre>
+</blockquote>
+
+<p>
+Remove the first occurrence of 'YHOO'.</p>
+
+<blockquote>
+<pre>
+>>> <b>symlist.remove('YHOO')</b>
+>>> <b>symlist</b>
+['HPQ','AA','AAPL','AIG','GOOG','RHT','YHOO']
+>>>
+</pre>
+</blockquote>
+
+<p>
+Just so you know, there is no method to find or remove all occurrences of an
+item.  However, we'll see an elegant way to do this in section 2.
+</p>
+
+<p>
+<b>(e) List sorting</b>
+
+<p>
+Want to sort a list?  Use the <tt>sort()</tt> method.  Try it out:
+
+<blockquote>
+<pre>
+>>> <b>symlist.sort()</b>
+>>> <b>symlist</b>
+['AA','AAPL','AIG','GOOG','HPQ','RHT','YHOO']
+>>>
+</pre>
+</blockquote>
+
+<P>
+Want to sort in reverse?  Try this:
+
+<blockquote>
+<pre>
+>>> <b>symlist.sort(reverse=True)</b>
+>>> <b>symlist</b>
+['YHOO','RHT','HPQ','GOOG','AIG','AAPL','AA']
+>>>
+</pre>
+</blockquote>
+
+<P>
+Note: Sorting a list modifies its contents "in-place."  That is, the
+elements of the list are shuffled around, but no new list is created
+as a result.
+
+<p>
+<b>(f) Putting it all back together</b>
+</p>
+
+<p>
+Want to take a list of strings and join them together into one string?
+Use the <tt>join()</tt> method of strings like this (note: this looks
+funny at first).
+</p>
+
+<blockquote>
+<pre>
+>>> <b>','.join(symlist)</b>
+'YHOO,RHT,HPQ,GOOG,AIG,AAPL,AA'
+>>> <b>':'.join(symlist)</b>
+'YHOO:RHT:HPQ:GOOG:AIG:AAPL:AA'
+>>> <b>''.join(symlist)</b>
+'YHOORHTHPQGOOGAIGAAPLAA'
+>>>
+</pre>
+</blockquote>
+
+<p>
+<b>(g) Lists of anything</b>
+
+<p>
+Lists can contain any kind of object, including other lists (e.g., nested
+lists).  Try this out:
+
+<blockquote>
+<pre>
+>>> <b>nums = [101,102,103]</b>
+>>> <b>items = ['spam',symlist, nums]</b>
+>>> <b>items</b>
+['spam', ['YHOO','RHT','HPQ','GOOG','AIG','AAPL','AA'], [101,102,103]]
+</pre>
+</blockquote>
+
+<p>
+Pay close attention to the above output.  <tt>items</tt> is a list
+with three elements. The first element is a string, but the other two
+elements are lists.
+
+<p>
+Try some nested lookups:
+
+<blockquote>
+<pre>
+>>> <b>items[0]</b>
+'spam'
+>>> <b>items[0][0]</b>
+'s'
+>>> <b>items[1]</b>
+['YHOO','RHT','HPQ','GOOG','AIG','AAPL','AA']
+>>> <b>items[1][1]</b>
+'RHT'
+>>> <b>items[1][1][2]</b>
+'T'
+>>> <b>items[2]</b>
+[101,102,103]
+>>> <b>items[2][1]</b>
+102
+>>>
+</pre>
+</blockquote>
+
+<p>
+<b>(h) Ponder this</b>
+
+<P>
+Try the following statement:
+
+<blockquote>
+<pre>
+>>> <b>nums.append(9999)</b>
+>>> <b>nums</b>
+[101,102,103,9999]
+>>>
+</pre>
+</blockquote>
+
+<p>
+Now, look at <tt>items</tt> variable:
+
+<blockquote>
+<pre>
+>>> <b>items</b>
+['spam', ['YHOO','RHT','HPQ','GOOG','AIG','AAPL','AA'], [101,102,103,9999]]
+>>>
+</pre>
+</blockquote>
+
+<p>
+Spend some time to think about what you're seeing here.
+
+<hr>
+[ <a href="index.html">Index</a> | <a href="soln1_5.html">Solution</a>
+| <a href="ex1_4.html">Back</a> | <a href="ex1_6.html">Next</a> ]
+</body>
+</html>

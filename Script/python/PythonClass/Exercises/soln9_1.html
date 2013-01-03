@@ -1,0 +1,108 @@
+<html>
+<head>
+<title>Python Training Exercises</title>
+</head>
+
+<body>
+<h1>Exercise 9.1 - Solution</h1>
+
+<p>
+<b>(a) Template strings</b>
+
+<pre>
+# stockreport.py
+
+import sys
+import urllib
+import csv
+import string
+
+output = string.Template("""
+&lt;p>
+&lt;b>$symbol ($name)&lt;/b>&lt;br>
+&lt;font size=+2>&lt;b>$price&lt;/b>&lt;/font>
+$change ($percent)
+$date $time&lt;br>
+&lt;table>
+   &lt;tr>
+      &lt;td>Open:&lt;/td>&lt;td>$open&lt;/td>&lt;td>Volume:&lt;/td>&lt;td>$volume&lt;/td>
+   &lt;/tr>
+   &lt;tr>
+      &lt;td>High:&lt;/td>&lt;td>$high&lt;/td>&lt;td>Low:&lt;/td>&lt;td>$low&lt;/td>
+   &lt;/tr>
+&lt;/table>
+&lt;/p>
+""")
+
+if len(sys.argv) != 2:
+    print >>sys.stderr,"Usage: %s symbol" % sys.argv[0]
+    raise SystemExit(1)
+
+symbol = sys.argv[1]
+
+u      = urllib.urlopen("http://finance.yahoo.com/d/quotes.csv?f=snl1d1t1c1p2ohgv&s="+symbol)
+colnames = ['symbol','name','price','date','time','change','percent','open','high','low','volume']
+stocks = csv.DictReader(u,colnames)
+
+for s in stocks:
+    print output.substitute(s)
+</pre>
+
+<hr>
+
+<p>
+<b>(b) Using Template Files</b>
+</p>
+
+<p>
+First create a file <tt>stockreport_template.html</tt> that contains
+the following:</p>
+
+<pre>
+&lt;p>
+&lt;b>$symbol ($name)&lt;/b>&lt;br>
+&lt;font size=+2>&lt;b>$price&lt;/b>&lt;/font>
+$change ($percent)
+$date $time&lt;br>
+&lt;table>
+   &lt;tr>
+      &lt;td>Open:&lt;/td>&lt;td>$open&lt;/td>&lt;td>Volume:&lt;/td>&lt;td>$volume&lt;/td>
+   &lt;/tr>
+   &lt;tr>
+      &lt;td>High:&lt;/td>&lt;td>$high&lt;/td>&lt;td>Low:&lt;/td>&lt;td>$low&lt;/td>
+   &lt;/tr>
+&lt;/table>
+&lt;/p>
+</pre>
+
+<p>
+Now, here is the finished code:
+</p>
+
+<pre>
+# stockreport.py
+
+import sys
+import urllib
+import csv
+import string
+
+if len(sys.argv) != 2:
+    print >>sys.stderr,"Usage: %s symbol" % sys.argv[0]
+    raise SystemExit(1)
+
+symbol = sys.argv[1]
+output = string.Template(open("stockreport_template.html").read())
+
+u      = urllib.urlopen("http://finance.yahoo.com/d/quotes.csv?f=snl1d1t1c1p2ohgv&s="+symbol)
+colnames = ['symbol','name','price','date','time','change','percent','open','high','low','volume']
+stocks = csv.DictReader(u,colnames)
+
+for s in stocks:
+    print output.substitute(s)
+</pre>
+
+<hr>
+[ <a href="ex9_1.html">Back</a> ]
+</body>
+</html>

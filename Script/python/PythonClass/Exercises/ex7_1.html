@@ -1,0 +1,276 @@
+<html>
+<head>
+<title>Python Training Exercises - Exercise 7.1</title>
+</head>
+
+<body>
+<h1>Exercise 7.1</h1>
+
+<table width=600 bgcolor="#e0e0ff" border=1 cellpadding=20>
+<tr>
+<td>
+<b>Objectives:</b>
+<ul>
+<li>Learn the basics of using Python's testing tools.</li>
+</ul>
+
+<p>
+<b>Files Created:</b>
+<ul>
+  <Li><tt>simple.py</tt></li>
+  <li><tt>testsimple.py</tt></li>
+  </ul>
+</td>
+</tr>
+</table>
+
+<p>
+
+<p>
+In this exercise, you will explore the basic mechanics of using
+Python's <tt>doctest</tt> and <tt>unittest</tt> modules.
+</p>
+
+<p>
+<b>(a) Preliminaries</b>
+</p>
+
+<p>
+In a file <tt>simple.py</tt>, define a set of very simple functions
+and include some documentation strings.</p>
+
+<blockquote>
+<table><tr><td><pre>
+# simple.py
+
+def add(x,y):
+    """Adds x and y together.  For example:
+
+       >>> add(2,3)
+       5
+       >>> add("Hello","World")
+       "HelloWorld"
+       >>> add(2.1,4.2)
+       6.3
+       >>>
+    """
+    return x+y
+
+def sub(x,y):
+    """Subtracts y from x.  For example:
+
+       >>> sub(3,2)
+       1
+       >>> sub(2.5,1.1)
+       1.4
+       >>>
+    """
+    return x-y
+</pre></td></tr></table>
+</blockquote>
+
+<p>
+Import this module and make sure you view the doc strings.</p>
+
+<blockquote>
+<pre>
+>>> <b>import simple</b>
+>>> <b>help(simple.add)</b>
+... look at output ...
+>>> <b>help(simple.sub)</b>
+... look at output ...
+>>>
+</pre>
+</blockquote>
+
+<p>
+<b>(b) Testing the documentation</b>
+</p>
+
+<p>
+Try using the <tt>doctest</tt> module to test the documentation
+strings.
+</p>
+
+<blockquote>
+<pre>
+>>> <b>import doctest</b>
+>>> <b>doctest.testmod(simple)</b>
+... look at the output ...
+>>>
+</pre>
+</blockquote>
+
+<p>
+You should see some output related to failed tests.  Modify the
+<tt>simple.py</tt> program so that it tests its own documentation
+if it's run as the main program:
+</p>
+
+
+<blockquote>
+<table><tr><td><pre>
+# simple.py
+...
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
+</pre></td></tr></table>
+</blockquote>
+
+<p>
+Once you've done this, run the program and fix all of the
+documentation errors until the tests pass.   Note: fixing tests might
+involve changing the documentation to use better examples.
+</p>
+
+<p>
+<b><font color="#ff0000">Note for Macintosh:</font></b> Running
+doctests within IDLE is known to cause problems (freezing, crashing,
+etc.).   Try running the tests using the terminal window instead.</p>
+
+<p>
+<b>(c) Writing Unit Tests</b>
+</p>
+
+<p>
+In a separate file <tt>testsimple.py</tt>, write a set a unit tests
+for the functions <tt>simple.py</tt> that mirror the examples in the
+documentation strings.  To get you started, here's a template of what
+the testing code will look like:
+</p>
+
+<blockquote>
+<table><tr><td><pre>
+# testsimple.py
+
+import simple
+
+import unittest
+class TestAdd(unittest.TestCase):
+    def testint(self):
+        r = simple.add(2,3)
+        self.assertEquals(r,5)
+
+    ... more tests added by you ...
+
+class TestSub(unittest.TestCase):
+    ... your tests here ...
+
+if __name__ == '__main__':
+    unittest.main()
+</pre></td></tr></table>
+</blockquote>
+
+<p>
+Run your unit tests.   You should get some output that looks like this:
+</p>
+
+<blockquote>
+<pre>
+.....
+----------------------------------------------------------------------
+Ran 5 tests in 0.000s
+
+OK
+</pre>
+</blockquote>
+
+<p>
+<b>Note:</b>  If you run unit testing code in IDLE, you will get output that looks like this:
+
+<blockquote>
+<pre>
+.....
+----------------------------------------------------------------------
+Ran 5 tests in 0.060s
+
+OK
+
+Traceback (most recent call last):
+  File "C:/PythonClass/testsimple.py", line 24, in &lt;odule>
+    unittest.main()
+  File "C:\Python26\lib\unittest.py", line 817, in __init__
+    self.runTests()
+  File "C:\Python26\lib\unittest.py", line 862, in runTests
+    sys.exit(not result.wasSuccessful())
+SystemExit: False
+>>> 
+</pre>
+</blockquote>
+
+The error traceback is originating from <tt>unittest.main()</tt> trying to exit.   Normally you wouldn't
+see this, but IDLE is catching it and keeping the interpreter alive.   This isn't a bug so don't worry about it.
+
+<p>
+<b>(d) Checking for Errors</b>
+</p>
+
+<p>
+It is also useful to be able to check for errors in unit tests.  For example,
+suppose you wanted a test that would verify this behavior:
+</p>
+
+<blockquote>
+<pre>
+>>> simple.add(3,"Hello")
+Traceback (most recent call last):
+  File "&lt;stdin>", line 1, in &lt;module>
+  File "simple.py", line 14, in add
+    return x+y
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
+>>> 
+</pre>
+</blockquote>
+
+<p>
+To do it, use the <tt>self.assertRaises()</tt> method.  For example:
+
+<blockquote>
+<table><tr><td><pre>
+# testsimple.py
+
+import simple
+import unittest
+
+class TestAdd(unittest.TestCase):
+   ... 
+   def testTypeError(self):
+       self.assertRaises(TypeError, simple.add, 3, "Hello")
+   ...
+</pre></td></tr></table>
+</blockquote>
+
+<p>
+If you also want to check the error message itself, you have to use a
+different procedure.  For instance, you can write this code:</p>
+
+<blockquote>
+<table><tr><td><pre>
+# testsimple.py
+
+import simple
+import unittest
+
+class TestAdd(unittest.TestCase):
+    ... 
+    def testTypeErrorMessage(self):
+        try:
+            simple.add(3,"Hello")
+        except TypeError as e:
+            self.assertEquals(str(e),"unsupported operand type(s) for +: 'int' and 'str'")
+    ...
+</pre></td></tr></table>
+</blockquote>
+
+<p>
+Try adding both of these tests to your unit tests and re-run your test
+program.  Make sure you can get all of the tests to pass.
+</p>
+
+
+<hr>
+[ <a href="index.html">Index</a> | <a href="soln7_1.html">Solution</a>
+| <a href="ex6_2.html">Back</a> | <a href="ex7_2.html">Next</a> ]
+</body>
+</html>

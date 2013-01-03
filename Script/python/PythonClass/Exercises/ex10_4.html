@@ -1,0 +1,86 @@
+<html>
+<head>
+<title>Python Training Exercises - Exercise 10.4</title>
+</head>
+
+<body>
+<h1>Exercise 10.4</h1>
+
+<table width=600 bgcolor="#e0e0ff" border=1 cellpadding=20>
+<tr>
+<td>
+<b>Objectives:</b>
+<ul>
+<li>Learning about Decorators
+</ul>
+<p>
+<b>Files Created:</b> <tt>timethis.py</tt>
+
+<p>
+<b>Files Modified:</b> None
+
+</td>
+</tr>
+</table>
+
+<p>
+If you define a function, its name and module are stored
+in the <tt>__name__</tt> and <tt>__module__</tt> attributes. For
+example:
+
+<blockquote>
+<pre>
+>>> <b>def add(x,y):</b>
+     <b>return x+y</b>
+
+>>> <b>add.__name__</b>
+'add'
+>>> <b>add.__module__</b>
+'__main__'
+>>>
+</pre>
+</blockquote>
+
+In a file <tt>timethis.py</tt>, write a decorator
+function <tt>timethis(<em>func</em>)</tt> that wraps a function with an
+extra layer of logic that prints out how long it takes for a function
+to execute.  To do this, you'll surround the function with timing
+calls like this:</p>
+
+<blockquote>
+<pre>
+start = time.time()
+r = func(*args,**kwargs)
+end = time.time()
+print "%s.%s: %f" % (func.__module__, func.__name__, end-start)
+</pre>
+</blockquote>
+
+<p>
+Here is an example of how your decorator should work:
+
+<blockquote>
+<pre>
+>>> <b>from timethis import timethis</b>
+>>> <b>@timethis</b>
+    <b>def countdown(n):</b>
+    <b>    while n > 0:</b>
+    <b>         n -= 1</b>
+
+>>> <b>countdown(10000000)</b>
+__main__.countdown : 0.076562
+>>>
+</pre>
+</blockquote>
+
+<p>
+Discussion:  This <tt>@timethis</tt> decorator can be placed in front of any
+function definition.   Thus, you might use it as a diagnostic tool for 
+performance tuning.</p>
+
+<hr>
+[ <a href="index.html">Index</a> | <a
+href="soln10_4.html">Solution</a>
+| <a href="ex10_3.html">Back</a> | <a href="ex10_5.html">Next</a> ]
+</body>
+</html>

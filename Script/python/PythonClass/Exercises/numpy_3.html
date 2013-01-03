@@ -1,0 +1,164 @@
+<html>
+<head>
+<title>Python Training Exercises - Numpy.3</title>
+</head>
+
+<body>
+<h1>Exercise Numpy.3</h1>
+
+<table width=600 bgcolor="#e0e0ff" border=1 cellpadding=20>
+<tr>
+<td>
+<b>Objectives:</b>
+<ul>
+  <li>Try some mathematical operations on arrays</li>
+</ul>
+
+<p>
+<b>Files Created:</b> None</p>
+
+<p>
+<b>Files Modified:</b> None</p>
+
+</td>
+</tr>
+</table>
+
+<p>
+In this exercise,we're going to perform mathematical operations on arrays.
+</p>
+
+<p>
+<b>(a) Applying a function to a set of x-values</b>
+</p>
+
+<p>
+Create an array representing a set of x-values:</p>
+
+<blockquote>
+<pre>
+>>> <b>xpts = numpy.arange(-2,2,0.25)</b>
+>>> <b>xpts</b>
+array([-2.  , -1.75, -1.5 , -1.25, -1.  , -0.75, -0.5 , -0.25,  0.  ,
+        0.25,  0.5 ,  0.75,  1.  ,  1.25,  1.5 ,  1.75])
+>>>
+</pre>
+</blockquote>
+
+<p>
+Now, try applying different operations to <tt>xpts</tt> and view the
+results.  In each of these operations, a new array is created as a result.
+</p>
+
+<blockquote>
+<pre>
+>>> <b>xpts+10</b>
+array([  8.  ,   8.25,   8.5 ,   8.75,   9.  ,   9.25,   9.5 ,   9.75,
+        10.  ,  10.25,  10.5 ,  10.75,  11.  ,  11.25,  11.5 ,
+11.75])
+>>> <b>1.0/xpts</b>
+array([-0.5       , -0.57142857, -0.66666667, -0.8       , -1.        ,
+       -1.33333333, -2.        , -4.        ,         Inf,  4.        ,
+        2.        ,  1.33333333,  1.        ,  0.8       ,  0.66666667,
+        0.57142857])
+>>> <b>2*(xpts+10)</b>
+array([ 16. ,  16.5,  17. ,  17.5,  18. ,  18.5,  19. ,  19.5,  20. ,
+        20.5,  21. ,  21.5,  22. ,  22.5,  23. ,  23.5])
+>>> <b>numpy.sin(xpts)</b>
+array([-0.90929743, -0.98398595, -0.99749499, -0.94898462, -0.84147098,
+       -0.68163876, -0.47942554, -0.24740396,  0.        ,  0.24740396,
+        0.47942554,  0.68163876,  0.84147098,  0.94898462,  0.99749499,
+        0.98398595])
+>>> <b>numpy.sqrt(xpts)</b>
+array([        nan,         nan,         nan,         nan,         nan,
+               nan,         nan,         nan,  0.        ,  0.5       ,
+        0.70710678,  0.8660254 ,  1.        ,  1.11803399,  1.22474487,
+        1.32287566])
+>>> <b>ypts = 2*numpy.cos(2*xpts)-3.5*numpy.sin(3*xpts)</b>
+>>> <b>ypts</b>
+array([-2.28524149, -4.8791841 , -5.40134041, -3.60275185, -0.33837364,
+        2.86473059,  4.57183706,  4.14090078,  2.        , -0.63057054,
+       -2.41062784, -2.58178179, -1.3262137 ,  0.39817738,  1.44137042,
+        1.13335735])
+>>> 
+</pre>
+</blockquote>
+
+<p>
+<b>(b) Operations on Grids</b>
+</p>
+
+<p>
+Make a 2-d array:</p>
+
+<blockquote>
+<pre>
+>>> <b>grid = numpy.zeros(shape=(5,5),dtype=float)</b>
+>>> <b>grid</b>
+array([[ 0.,  0.,  0.,  0.,  0.],
+       [ 0.,  0.,  0.,  0.,  0.],
+       [ 0.,  0.,  0.,  0.,  0.],
+       [ 0.,  0.,  0.,  0.,  0.],
+       [ 0.,  0.,  0.,  0.,  0.]])
+>>>
+</pre>
+</blockquote>
+
+<p>
+Try some mathematical calculations involving different kinds of
+operands.
+</p>
+
+<p>
+Add a scalar value:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>grid + 37</b>
+array([[ 37.,  37.,  37.,  37.,  37.],
+       [ 37.,  37.,  37.,  37.,  37.],
+       [ 37.,  37.,  37.,  37.,  37.],
+       [ 37.,  37.,  37.,  37.,  37.],
+       [ 37.,  37.,  37.,  37.,  37.]])
+>>>
+</pre>
+</blockquote>
+
+<p>
+Add a row
+</p>
+
+<blockquote>
+<pre>
+>>> <b>grid + numpy.array([1,2,3,4,5])</b>
+array([[ 1.,  2.,  3.,  4.,  5.],
+       [ 1.,  2.,  3.,  4.,  5.],
+       [ 1.,  2.,  3.,  4.,  5.],
+       [ 1.,  2.,  3.,  4.,  5.],
+       [ 1.,  2.,  3.,  4.,  5.]])
+>>> 
+</pre>
+</blockquote>
+
+<p>
+Add a column:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>grid + numpy.array([[1],[2],[3],[4],[5]])</b>
+array([[ 1.,  1.,  1.,  1.,  1.],
+       [ 2.,  2.,  2.,  2.,  2.],
+       [ 3.,  3.,  3.,  3.,  3.],
+       [ 4.,  4.,  4.,  4.,  4.],
+       [ 5.,  5.,  5.,  5.,  5.]])
+>>> 
+</pre>
+</blockquote>
+
+<hr>
+[ <a href="index.html">Index</a>
+| <a href="numpy_2.html">Back</a> | <a href="numpy_4.html">Next</a> ]
+</body>
+</html>

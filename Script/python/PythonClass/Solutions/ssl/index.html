@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title>Advanced Networking Examples</title>
+</head>
+
+<body>
+<h1>Advanced Networking Examples</h1>
+
+<p>
+This directory contains some sample code related to SSL handshaking
+between different machines using different protocols and libraries.
+Please consult <a
+href="http://docs.python.org/library/ssl">http://docs.python.org/library/ssl</a>
+for important information concerning these examples.
+</p>
+
+<h3>Preliminaries</h3>
+
+<P>
+To do any kind of work with SSL you first need to have a set of
+public/private keypairs and a set of certificates.  Generating the
+keys and certificates are outside the scope of Python.  Consult
+documentation for OpenSSL or related package for more information.
+</p>
+<p>
+For these examples, a set of keys and certificates have been made
+already:
+</p>
+
+<ul>
+
+  <p>
+  <li>The <tt>privkeys/</tt> directory contains three private keys for "acme",
+  "guido", and "larry".</li></p>
+  <p>
+  <li>The <tt>certs/</tt> directory contains three signed certificates for
+  "acme", "guido", and "larry".</li>
+  </p>
+  <P>
+  <li>The <tt>ca/</tt> directory contains information about the root
+  certificate authority used to sign the certificates.  The file
+  <tt>ca/ca.crt</tt> is the certificate for the certificate authority.
+  </li>
+  </p>
+</ul>
+
+<h3>Example 1 : A Simple SSL Server/Client</h3>
+
+<p>
+An example of an SSL server that presents a signed certificate to
+clients.  The client code verifies the server identity using the
+certificate authority (CA) certificate.</p>
+
+<ul>
+  <li><a href="ssl_server1.py"><tt>ssl_server1.py</tt></a></li>
+  <li><a href="ssl_client1.py"><tt>ssl_client1.py</tt></a></li>
+</ul>
+
+<h3>Example 2 : A SSL Server/Client with paired certificates</h3>
+
+<p>
+An example of an SSL server that requires clients to present
+certificates that are verified against a trusted certificate
+authority.
+</p>
+
+<ul>
+  <li><a href="ssl_server2.py"><tt>ssl_server2.py</tt></a></li>
+  <li><a href="ssl_client2.py"><tt>ssl_client2.py</tt></a></li>
+</ul>
+
+<h3>Example 3 : An SSL XML-RPC Server with paired certificates</h3>
+
+<p>
+An example of creating an XML-RPC server that uses SSL and requires
+clients to present certificates signed by a trusted certificate
+authority.
+</p>
+
+
+<ul>
+  <li><a href="ssl_xmlrpc_server.py"><tt>ssl_xmlrpc_server.py</tt></a></li>
+  <li><a href="ssl_xmlrpc_client.py"><tt>ssl_xmlrpc_client.py</tt></a></li>
+</ul>
+
+<h3>Example 4: An SSL Web Server with paired certificates</h3>
+
+<p>
+An example of creating an HTTP server that uses SSL as well as using
+<tt>urllib2</tt> to provide client certificates.
+</p>
+
+
+<ul>
+  <li><a href="ssl_http_server.py"><tt>ssl_http_serv.py</tt></a></li>
+  <li><a href="ssl_urllib.py"><tt>ssl_urllib.py</tt></a></li>
+</ul>
+
+<p>
+If you try to connect to this server using a normal web browser at <a
+href="https://localhost:8080">https://localhost:8080</a>, you should
+get an error message rejecting the connection due to bad
+certicates. The only to connect is to present a certificate as shown
+in the <tt>ssl_urllib.py</tt> code.</p>
+
+<hr>
+<address></address>
+<!-- hhmts start --> Last modified: Sun May 22 12:18:36 CDT 2011 <!-- hhmts end -->
+</body> </html>

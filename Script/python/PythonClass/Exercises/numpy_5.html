@@ -1,0 +1,74 @@
+<html>
+<head>
+<title>Python Training Exercises - Numpy.5</title>
+</head>
+
+<body>
+<h1>Exercise Numpy.5</h1>
+
+<table width=600 bgcolor="#e0e0ff" border=1 cellpadding=20>
+<tr>
+<td>
+<b>Objectives:</b>
+<ul>
+  <li>Make some plots</li>
+</ul>
+
+<p>
+<b>Files Created:</b> None</p>
+
+<p>
+<b>Files Modified:</b> None</p>
+
+</td>
+</tr>
+</table>
+
+<p>
+<b>(a) X-Y plots</b>
+</p>
+
+<p>
+Make an X-Y plot of the data from the last exercise.
+</p>
+
+<blockquote>
+<pre>
+>>> <b>import pylab</b>
+>>> <b>pylab.plot(xpts,ypts)</b>
+[&lt;matplotlib.lines.Line2D object at 0x196c2f50>]
+>>> <b>pylab.plot(xpts[:-1],dypts)</b>
+[&lt;matplotlib.lines.Line2D object at 0x18ef1e50>]
+>>> <b>pylab.show()</b>
+</pre>
+</blockquote>
+
+<p>
+Note: In the last step, the number of points in <tt>dypts</tt> is one
+less than in <tt>xpts</tt> so we need to omit one value to make their sizes
+match.
+</p>
+
+<p>
+Try another X-Y plot, but this time with many more points.
+</p>
+
+<blockquote>
+<pre>
+>>> <b>xpts = numpy.linspace(-5,5,1000000)</b>
+>>> <b>ypts = xpts*numpy.sin(1.0/xpts)</b>
+>>> <b>pylab.plot(xpts,ypts)</b>
+[&lt;matplotlib.lines.Line2D object at 0x18eb1e50>]
+>>> <b>pylab.show()</b>
+</pre>
+</blockquote>
+
+<p>
+Try using the matplotlib viewer to zoom in on the origin.
+</p>
+
+<hr>
+[ <a href="index.html">Index</a>
+| <a href="numpy_4.html">Back</a> | <a href="ex5_1.html">Next</a> ]
+</body>
+</html>

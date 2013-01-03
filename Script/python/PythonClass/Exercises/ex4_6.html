@@ -1,0 +1,176 @@
+<html>
+<head>
+<title>Python Training Exercises - Exercise 4.6</title>
+</head>
+
+<body>
+<h1>Exercise 4.6</h1>
+
+<table width=600 bgcolor="#e0e0ff" border=1 cellpadding=20>
+<tr>
+<td>
+<b>Objectives:</b>
+<ul>
+  <li>Experiment with pickle</li>
+ <li>Manipulate a sqlite3 database</li>
+</ul>
+
+<p>
+<b>Files Created:</b> None</p>
+
+<p>
+<b>Files Modified:</b> None</p>
+
+</td>
+</tr>
+</table>
+
+<p>
+
+<p>
+<b>(a) Experiment with pickle</b>
+</p>
+
+<p>
+The pickle module can be used to easily save and restore data from a Python program.
+Try a quick experiment:
+</p>
+
+<p>
+First, define some variables:</p>
+
+<blockquote>
+<pre>
+>>> <b>a = "Hello World"</b>
+>>> <b>b = [1,2,3,4,5]</b>
+>>> <b>c = {'name':'GOOG','shares':100,'price':490.10}</b>
+>>>
+</pre>
+</blockquote>
+
+<p>
+Now, use pickle to dump the variables to a file:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>import pickle</b>
+>>> <b>f = open("stuff.p","wb")</b>
+>>> <b>pickle.dump(a,f)</b>
+>>> <b>pickle.dump(b,f)</b>
+>>> <b>pickle.dump(c,f)</b>
+>>> <b>f.close()</b>
+>>>
+</pre>
+</blockquote>
+
+<p>
+Now, restart Python and use pickle to get the data back:
+</p>
+
+<blockquote>
+<pre>
+>>> ================================ RESTART ================================
+>>> <b>import pickle</b>
+>>> <b>f = open("stuff.p","rb")</b>
+>>> <b>pickle.load(f)</b>
+'Hello World'
+>>> <b>x = pickle.load(f)</b>
+>>> <b>y = pickle.load(f)</b>
+>>> <b>x</b>
+[1, 2, 3, 4, 5]
+>>> <b>y</b>
+{'price': 490.1, 'name': 'GOOG', 'shares': 100}
+>>>
+</pre>
+</blockquote>
+
+<p>
+With pickle, the only thing that you have to remember is the order in which data was dumped--
+variable names don't matter (you don't have to use the same names when loading as those
+used when dumping).</p>
+
+<p>
+Take a look at the pickle output file:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>print open("stuff.p","rb").read()</b>
+... look at output ...
+>>>
+</pre>
+</blockquote>
+
+<p>
+<b>(b) Accessing a simple SQLite database</b>
+</p>
+
+<p>
+The file <tt>Data/portfolio.db</tt> is a simple Sqlite3 database
+file.  Try connecting to the file:</p>
+
+<blockquote>
+<pre>
+>>> <b>import sqlite3</b>
+>>> <b>c = sqlite3.connect("Data/portfolio.db")</b>
+>>>
+</pre>
+</blockquote>
+
+<p>
+Try performing a simple query (Note: the <tt>(1,)</tt> in the code is
+a one-item tuple).
+</p>
+
+<blockquote>
+<pre>
+>>> <b>for row in c.execute("select name, shares, price from portfolio where account=?",(1,)):</b>
+        <b>print row</b>
+
+(u'AA', 100, 32.2)
+(u'IBM', 50, 91.1)
+(u'CAT', 150, 83.44)
+(u'MSFT', 200, 51.23)
+(u'GE', 95, 40.37)
+(u'MSFT', 50, 65.1)
+(u'IBM', 100, 70.44)
+>>>
+</pre>
+</blockquote>
+
+<p>
+Note: The strings prefaced by a <tt>u'...'</tt> above are Unicode.</p>
+
+<p>
+Try removing some rows</p>
+
+<blockquote>
+<pre>
+>>> <b>c.execute("delete from portfolio where account=? and name=?", (1,"MSFT"))</b>
+>>> <b>c.commit()</b>
+>>> 
+</pre>
+</blockquote>
+
+<p>
+Try performing the original query to verify that rows were deleted.
+</p>
+
+<p>
+Believe it or not, there's not much more to accessing SQL databases
+than what is shown here--essentially you establish a connection with
+the database system and execute queries in the form of SQL
+statements.  One tricky bit concerns the use of "?" to substitute
+values in query strings. In the queries shown, each "?" is replaced by a
+value provided in a tuple of arguments.  When performing these
+substitutions, argument values are properly quoted to safely work in
+the context of the SQL query.  <b>DO NOT USE PYTHON STRING FORMATTING
+TO MAKE QUERIES UNLESS YOU WANT YOUR CODE TO BE VULNERABLE TO A <a href="http://xkcd.com/327/">SQL
+INJECTION ATTACK!</a></b>
+
+<hr>
+[ <a href="index.html">Index</a> | <a href="soln4_6.html">Solution</a>
+| <a href="ex4_5.html">Back</a> | <a href="ex4_7.html">Next</a> ]
+</body>
+</html>

@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>Python Training Exercises</title>
+</head>
+
+<body>
+<h1>Exercise 8.1 - Solution</h1>
+
+<p>
+<b>
+(b) Supporting Iteration</b>
+</p>
+
+<pre>
+# portfolio.py
+import stock
+
+class Portfolio(object):
+    def __init__(self,filename=None):
+        if filename:
+             self.holdings = stock.read_portfolio(filename)
+        else:
+             self.holdings = []
+<font color="#0000ff">
+    def __iter__(self):
+        return self.holdings.__iter__()</font>
+
+    def cost(self):
+        return sum([s.shares*s.price for s in self.holdings])
+
+if __name__ == '__main__':
+    port = Portfolio("../../Data/portfolio.dat")
+    for s in port:
+        print s
+</pre>
+
+<hr>
+[ <a href="ex8_1.html">Back</a> ]
+</body>
+</html>

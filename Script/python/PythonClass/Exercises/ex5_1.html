@@ -1,0 +1,196 @@
+<html>
+<head>
+<title>Python Training Exercises - Exercise 5.1</title>
+</head>
+
+<body>
+<h1>Exercise 5.1</h1>
+
+<table width=600 bgcolor="#e0e0ff" border=1 cellpadding=20>
+<tr>
+<td>
+<b>Objectives:</b>
+<ul>
+<li>Defining a simple class to represent data.
+<li>Further use of library modules and the <tt>import</tt> statement.
+</ul>
+
+<p>
+<b>Files Created:</b> <tt>PythonClass/stock.py</tt>.  
+
+</td>
+</tr>
+</table>
+
+<p>
+
+<b>(a) Objects as Data Structures</b>
+
+<p>
+In section 2 and 3, we worked with data represented as tuples and dictionaries.   For example, a holding of
+stock could be represented as a tuple like this:
+
+<blockquote>
+<pre>
+s = ('GOOG',100,490.10)
+</pre>
+</blockquote>
+
+or as a dictionary like this:
+
+<blockquote>
+<pre>
+s = { 'name'   : 'GOOG',
+      'shares' : 100,
+      'price'  : 490.10
+}
+</pre>
+</blockquote>
+
+Another approach for representing data would be to define a class.   Create a file called
+<tt>stock.py</tt> and define a class <tt>Stock</tt>
+that represents a single holding of stock.  Have the instances of <tt>Stock</tt> have <tt>name</tt>,
+<tt>shares</tt>, and <tt>price</tt> attributes.  For example:
+
+<blockquote>
+<pre>
+>>> ================================ RESTART ================================
+>>> <b>import stock</b>
+>>> <b>s = stock.Stock('GOOG',100,490.10)</b>
+>>> <b>s.name</b>
+'GOOG'
+>>> <b>s.shares</b>
+100
+>>> <b>s.price</b>
+490.1
+>>>
+</pre>
+</blockquote>
+
+Create a few more <tt>Stock</tt> objects and manipulate them.  For example:
+
+<blockquote>
+<pre>
+>>> <b>a = stock.Stock('AAPL',50,122.34)</b>
+>>> <b>b = stock.Stock('IBM',75,91.75)</b>
+>>> <b>a.shares*a.price</b>
+6117.0
+>>> <b>b.shares*b.price</b>
+6881.25
+>>> <b>stocks = [a,b,s]</b>
+>>> <b>stocks</b>
+[&lt;stock.Stock object at 0x37d0b0>, &lt;stock.Stock object at 0x37d110>, &lt;stock.Stock object at 0x37d050>]
+>>> <b>for t in stocks:</b>
+     <b>print "%10s %10d %10.2f" % (t.name, t.shares, t.price)</b>
+
+... look at the output ...
+>>>
+</pre>
+</blockquote>
+
+One thing to emphasize here is that the class <tt>Stock</tt> acts like a factory for creating instances of objects.
+Basically, you just call it as a function and it creates a new object for you.  Also, it needs to be emphasized that each
+object is distinct---they each have their own data that is separate from other objects that have been created.
+
+<p>
+An object defined by a class is somewhat similar to a dictionary--just
+with somewhat different syntax.  For example, instead of
+writing <tt>s['name']</tt> or <tt>s['price']</tt>, you now
+write <tt>s.name</tt> and <tt>s.price</tt>. 
+
+<p>
+<b>(b) Reading Data into a List of Objects</b>
+
+<p>
+In your <tt>stock.py</tt> program, write a function <tt>read_portfolio(filename)</tt> that
+reads portfolio data from a file into a list of <tt>Stock</tt> objects.   This function
+is going to mimic the behavior of earlier code you have written.
+
+<p>
+Here's how your function will behave:
+
+<blockquote>
+<pre>
+>>> ================================ RESTART ================================
+>>> <b>import stock</b>
+>>> <b>portfolio = stock.read_portfolio("Data/portfolio.dat")</b>
+>>> <b>portfolio</b>
+[&lt;stock.Stock object at 0x81d70>, &lt;stock.Stock object at 0x81cf0>, &lt;stock.Stock object at 0x81db0>,
+ &lt;stock.Stock object at 0x81df0>, &lt;stock.Stock object at 0x81e30>, &lt;stock.Stock object at 0x81e70>,
+ &lt;stock.Stock object at 0x81eb0>]
+>>> 
+</pre>
+</blockquote>
+
+<p>
+It is important to emphasize that <tt>read_portfolio()</tt> is a top-level function, not a method of the <tt>Stock</tt> class.  This 
+function is merely creating a list of <tt>Stock</tt> objects; it's not an operation on an individual <tt>Stock</tt> instance.
+</p>
+
+<p>
+Try performing some calculations with the above data.  First, try printing a formatted table:
+
+<blockquote>
+<pre>
+>>> <b>for s in portfolio:</b>
+         <b>print "%10s %10d %10.2f" % (s.name, s.shares, s.price)</b>
+
+... look at the output ...
+>>>
+</pre>
+</blockquote>
+
+<p>
+Try a list comprehension:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>more100 = [s for s in portfolio if s.shares > 100]</b>
+>>> <b>for s in more100:</b>
+         <b>print "%10s %10d %10.2f" % (s.name, s.shares, s.price)</b>
+
+... look at the output ...
+>>>
+</pre>
+</blockquote>
+
+<p>
+Again, notice the similarity between <tt>Stock</tt> objects and dictionaries---they're basically the same
+idea, but the syntax for accessing values differs.
+</p>
+
+<p>
+<b>(c) Adding some Methods</b>
+
+<p>
+With classes, you can attach functions to your objects.  These are
+known as methods and are simply functions that operate on the data
+stored inside an object.  Add a <tt>cost()</tt> and <tt>sell()</tt>
+method to your
+<tt>Stock</tt> object.  They should work like this:
+
+<blockquote>
+<pre>
+>>> ================================ RESTART ================================
+>>> <b>import stock</b>
+>>> <b>s = stock.Stock('GOOG',100,490.10)</b>
+>>> <b>s.cost()</b>
+49010.0
+>>> <b>s.shares</b>
+100
+>>> <b>s.sell(25)</b>
+75
+>>> <b>s.shares</b>
+75
+>>> <b>s.cost()</b>
+36757.5
+>>>
+</pre>
+</blockquote>
+
+<hr>
+[ <a href="index.html">Index</a> | <a href="soln5_1.html">Solution</a>
+| <a href="ex4_7.html">Back</a> | <a href="ex5_2.html">Next</a> ]
+</body>
+</html>

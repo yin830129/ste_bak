@@ -1,0 +1,188 @@
+<html>
+<head>
+<title>Python Training Exercises - Exercise 2.5</title>
+</head>
+
+<body>
+<h1>Exercise 2.5</h1>
+
+<table width=600 bgcolor="#e0e0ff" border=1 cellpadding=20>
+<tr>
+<td>
+<b>Objectives:</b>
+<ul>
+<li>Learn how to quickly process list data.
+<li>Apply an operation to all elements of a list
+<li>Perform database-style queries across items in a list
+<li>Introduction to "declarative programming" in Python
+</ul>
+<p>
+<b>Files Created:</b> None.
+
+<p>
+<b>Files Modified:</b> None.
+
+</td>
+</tr>
+</table>
+
+<p>
+
+<b>List comprehensions</b>
+
+<p>
+This exercise explores the use of list comprehensions to perform various
+data processing operations. </p>
+
+<p>
+Try a few quick examples first:</p>
+
+<blockquote>
+<pre>
+>>> <b>nums = [1,2,3,4]</b>
+>>> <b>squares = [x*x for x in nums]</b>
+>>> <b>squares</b>
+[1, 4, 9, 16]
+>>> <b>twice = [2*x for x in nums if x > 2]</b>
+>>> <b>twice</b>
+[6,8]
+>>>
+</pre>
+</blockquote>
+
+<p>
+Now, take your <tt>report.py</tt> program and run it.  Now, at the Python
+interactive prompt, type statements to perform the operations described below.
+These operations perform various kinds of data reductions, transforms, and queries on the portfolio data.</p>
+
+<p>
+<b>(a) Sequence Reductions (map-reduce)</b>
+
+<p>
+Compute the total cost of the portfolio using
+a single Python statement.
+
+<p>
+<blockquote>
+<pre>
+>>> <b>cost = sum([s['shares']*s['price'] for s in portfolio])</b>
+>>> <b>cost</b>
+</pre>
+</blockquote>
+
+<p>
+After you have done that,
+show how you can compute the current value of the portfolio
+using a single statement.
+
+<p>
+<blockquote>
+<pre>
+>>> <b>value = sum([s['shares']*prices[s['name']] for s in portfolio])</b>
+>>> <b>value</b>
+</pre>
+</blockquote>
+
+<p>
+<b>(b) Data Queries</b>
+
+<p>
+Try the following examples of various data queries:
+
+<p>
+A list of all portfolio holdings with more than 100 shares.
+
+<blockquote>
+<pre>
+>>> <b>more100 = [s for s in portfolio if s['shares'] > 100]</b>
+>>> <b>for s in more100:
+        print s</b>
+
+... look at the output ...
+</pre>
+</blockquote>
+
+
+<p>All portfolio holdings for MSFT and IBM stocks.
+
+<blockquote>
+<pre>
+>>> <b>msftibm = [s for s in portfolio if s['name'] in ['MSFT','IBM']]</b>
+>>> <b>for s in msftibm:
+        print s</b>
+
+... look at the output ...
+</pre>
+</blockquote>
+
+<p>
+A list of all portfolio holdings that cost more than $10000.
+
+<blockquote>
+<pre>
+>>> <b>cost10k = [s for s in portfolio if s['shares']*s['price'] > 10000]</b>
+>>> <b>for s in cost10k:
+        print s</b>
+
+... look at the output ...
+</pre>
+</blockquote>
+
+
+<p>
+<b>(c) Data Extraction</b>
+
+<p>
+Show how you could build a list of tuples <tt>(name,shares,current_price)</tt>
+where <tt>name</tt> and <tt>shares</tt> are taken from <tt>portfolio</tt> 
+and <tt>current_price</tt> is taken from the <tt>prices</tt> dictionary.
+
+
+<blockquote>
+<pre>
+>>> <b>summary = [(s['name'],s['shares'],prices[s['name']]) for s in portfolio]</b>
+>>> <b>for s in summary:
+        print s</b>
+
+... look at the output ...
+</pre>
+</blockquote>
+
+<p>
+Show how you create a set of all unique stock symbols in <tt>portfolio</tt>.
+
+<blockquote>
+<pre>
+>>> <b>names = set([s['name'] for s in portfolio])</b>
+>>>
+</pre>
+</blockquote>
+
+<p>
+Show how you could find a list of the <em>indices</em> where all of the IBM stocks are located in the portfolio.  For
+example, if an entry for IBM appears in positions 1 and 4 in the portfolio, the
+result would be the list <tt>[1, 4]</tt>.
+
+<blockquote>
+<pre>
+>>> <b>indices = [n for n,s in enumerate(portfolio) if s['name'] == 'IBM']</b>
+>>> <b>indices</b>
+[1, 6]
+>>> <b>for i in indices:
+       print portfolio[i]</b>
+
+... look at the output ...
+>>>
+</pre>
+</blockquote>
+
+<p>
+<b>Discussion</b> : List comprehensions are commonly used in Python as an efficient means for
+transforming, filtering, or collecting data.   Due to the syntax, you don't want to go overboard--try 
+to keep each list comprehension as simple as possible.   It's okay to break things into multiple steps.
+
+<hr>
+[ <a href="index.html">Index</a> | <a href="soln2_5.html">Solution</a>
+| <a href="ex2_4.html">Back</a> | <a href="ex2_6.html">Next</a> ]
+</body>
+</html>

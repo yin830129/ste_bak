@@ -1,0 +1,243 @@
+<html>
+<head>
+<title>Python Training Exercises - Exercise 1.6</title>
+</head>
+
+<body>
+<h1>Exercise 1.6</h1>
+
+
+<table width=600 bgcolor="#e0e0ff" border=1 cellpadding=20>
+<tr>
+<td>
+<b>Objectives:</b>
+<ul>
+<li>How to open and read data from files.
+<li>Using the for-loop to iterate over all of the lines in file.
+<li>Converting text strings into numbers.
+<li>Performing simple calculations with column-oriented data.
+<li>How to open different kinds of files
+</ul>
+
+<p>
+<b>Files Created:</b> <tt>PythonClass/pcost.py</tt>
+
+</td>
+</tr>
+</table>
+
+
+<table width = 600 bgcolor="#ffe0e0" border=1 cellpadding=20>
+<tr>
+<td>
+  <p>
+<b>Caution:</b> For this exercise involving files, you may encounter
+  problems if Python is running in a different working directory than
+  the <tt>PythonClass/</tt> folder.</p>
+
+<p>
+If you are using IDLE, make sure that it is running in the <b>SAME
+DIRECTORY</b> as the directory where you are editing your solutions
+(e.g., <tt>"C:\PythonClass"</tt>).  If you started IDLE by clicking on the
+<tt>RunIDLE.pyw</tt> file, then it should already be set up.</p>
+</td>
+</tr>
+</table>
+
+
+<p>
+<b>(a) File Preliminaries</b>
+</p>
+
+<p>
+The file <tt><a href="../Data/portfolio.dat">Data/portfolio.dat</a></tt> contains a list of lines with information
+on a portfolio of stocks.  Try a few experiments that show how to read
+data from the file.
+</p>
+
+<p>First, try reading the entire file all at once as a big string:</p>
+
+<blockquote>
+<pre>
+>>> <b>f = open('Data/portfolio.dat', 'r')</b>
+>>> <b>data = f.read()</b>
+>>> <b>data</b>
+'AA 100 32.20\nIBM 50 91.10\nCAT 150 83.44\nMSFT 200 51.23\nGE 95 40.37\nMSFT 50 65.10\nIBM 100 70.44\n'
+>>> <b>print data</b>
+AA 100 32.20
+IBM 50 91.10
+CAT 150 83.44
+MSFT 200 51.23
+GE 95 40.37
+MSFT 50 65.10
+IBM 100 70.44
+
+>>>
+</pre>
+</blockquote>
+
+<p>
+In the above example, it should be noted that Python has two modes of
+output.  In the first mode where you simply type <tt>data</tt> at the
+prompt, Python shows you the raw string representation including
+quotes and escape codes.   When you type <tt>print data</tt>, you get
+the actual formatted output of the string. </p>
+
+<p>
+Although reading a file all at once is simple, it is often not the most
+appropriate way to do it--especially if the file happens to be huge or
+if contains lines of text that you want to handle one at a time.  To
+read a file line-by-line, use a <tt>for-</tt>loop like this:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>f = open('Data/portfolio.dat', 'r')</b>
+>>> <b>for line in f:
+       print line,    </b>    # Note: trailing , omits the newline added by print
+
+AA 100 32.20
+IBM 50 91.10
+...
+
+>>>
+</pre>
+</blockquote>
+
+<p>
+When you use this code as shown, lines are read until the end of the
+file is reached at which point the loop stops.</p>
+
+<p>
+On rare occasions, you might want to manually read a <em>single</em>
+line of text.  To do that, use <tt>next()</tt> as shown here:</p>
+
+<blockquote>
+<pre>
+>>> <b>f = open('Data/portfolio.dat', 'r')</b>
+>>> <b>line = next(f)</b>
+>>> <b>line</b>
+'AA 100 32.20\n'
+>>>
+</pre>
+</blockquote>
+
+<p><tt>next()</tt> simply returns the next line of text in the
+file. If you were to call it repeatedly, you would get successive
+lines.  However, just so you know, the <tt>for-</tt>loop already uses <tt>next()</tt> to
+obtain its data.  Thus, you normally wouldn't call it directly when
+you wanted to read an entire file line-by-line.</p>
+
+<p>
+<b>(b) Reading a data file</b>
+
+<p>
+Now that you know how to read a file, let's write a program to perform
+a simple calculation.  The columns in <tt>Data/portfolio.dat</tt>
+correspond to the stock name, number of shares, and purchase price of
+a single share.</p>
+
+<p>
+Write a program called <tt>pcost.py</tt> that opens this file, reads
+all lines, and calculates how much it cost to purchase all of the shares
+in the portfolio. Hint: to
+convert a string to an integer, use <tt>int(s)</tt>.  To convert a
+string to a floating point, use <tt>float(s)</tt>.
+
+<p>
+Your program should print output such as the following:
+</p>
+
+<blockquote>
+<pre>
+Total cost 44671.15
+</pre>
+</blockquote>
+
+<p>
+<b>(c) Other kinds of "files"</b>
+
+<p>
+What happens if you read a non-text file such as gzip-compressed
+datafile?
+</p>
+
+<blockquote>
+<pre>
+>>> <b>f = open('Data/portfolio.gz','r')</b>
+>>> <b>data = f.read()</b>
+>>> <b>data</b>
+'\x1f\x8b\x08\x08J\x15\xe0H\x00\x03... bunch of junk'
+>>>
+</pre>
+</blockquote>
+
+<p>
+Python has a library module <tt>gzip</tt> that can read gzip compressed files.  For example:
+
+<blockquote>
+<pre>
+>>> <b>import gzip</b>
+>>> <b>f = gzip.open('Data/portfolio.gz')</b>
+>>> <b>for line in f:</b>
+           <b>print line,</b>
+   
+... look at the output ...
+>>>
+</pre>
+</blockquote>
+
+<p>
+<b>(d) Go scrape the web for some data</b>
+
+<p>
+Python has a library module <tt>urllib</tt> that contains a
+function <tt>urlopen()</tt>.  This function will open up a web page
+just like it was a file.   Try it out by getting a list of prices for
+all of stocks that make up the Dow Jones Industrial Average from Yahoo (note:
+the "sl1" at the end of the URL is the letter "S", the letter "L", and the
+number "1").</p>
+
+<blockquote>
+<pre>
+>>> <b>import urllib</b>
+>>> <b>u = urllib.urlopen("http://finance.yahoo.com/d/quotes.csv?s=@^DJI&f=sl1")</b>
+>>> <b>data = u.read()</b>
+>>> <b>data</b>
+... look at the output ...
+>>>
+</pre>
+</blockquote>
+
+Now, save the data in a file so you can work with it later:
+
+<blockquote>
+<pre>
+>>> <b>f = open("prices.csv","wb")</b>     # Write binary (needed for Windows)
+>>> <b>f.write(data)</b>
+>>> <b>f.close()</b>
+</pre>
+</blockquote>
+
+<p>
+If this works, you'll have a file <tt>prices.csv</tt> that contains a collection
+of prices from today's market.</p>
+
+<p>
+Here's a quick and dirty way to view the contents of the file you just
+wrote:</p>
+
+<blockquote>
+<pre>
+>>> <b>print open("prices.csv").read()</b>
+... look at output ...
+>>>
+</pre>
+</blockquote>
+
+
+<hr>
+[ <a href="index.html">Index</a> | <a href="soln1_6.html">Solution</a>
+| <a href="ex1_5.html">Back</a> | <a href="ex1_7.html">Next</a>]
+</body>
+</html>

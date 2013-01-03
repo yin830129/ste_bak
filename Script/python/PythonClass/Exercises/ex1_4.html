@@ -1,0 +1,252 @@
+<html>
+<head>
+<title>Python Training Exercises - Exercise 1.4</title>
+</head>
+
+<body>
+<h1>Exercise 1.4</h1>
+
+<table width=600 bgcolor="#e0e0ff" border=1 cellpadding=20>
+<tr>
+<td>
+<b>Objectives:</b>
+<ul>
+<li>How to create and manipulate text strings.
+<li>Further use of Python's interactive mode as a tool for experimentation.
+</ul>
+<p>
+<b>Files Created:</b> None
+
+</td>
+</tr>
+</table>
+<p>
+<table width=600 bgcolor="#ffe0e0" border=1 cellpadding=20>
+<tr>
+<td>
+<b>Caution:</b>
+
+<p>
+In exercises where you are supposed to interact with the interpreter,
+<tt>>>></tt> is the interpreter prompt that you get when Python wants
+you to type a new statement.  Some statements in the exercise span
+multiple lines--to get these statements to run, you may have to hit
+'return' a few times.  Just a reminder that you <b>DO NOT</b> type
+the <tt>>>></tt> when working these examples.
+</td>
+</tr>
+</table>
+
+
+<p>
+In this exercise, we experiment with operations on Python's string type.  You may want to do most of this exercise
+at the Python interactive prompt where you can easily see the results.
+
+<p>
+Define a string containing a series of stock ticker symbols like this:
+
+<p>
+<blockquote>
+<pre>
+<b>symbols = 'AAPL IBM MSFT YHOO SCO'</b>
+</pre>
+</blockquote>
+
+Now, let's experiment with different string operations:
+
+<p>
+<b>(a) Extracting individual characters and substrings</b>
+
+<p>Strings are arrays of characters.  Try extracting a few characters:
+
+<blockquote>
+<pre>
+>>> <b>symbols[0]</b>
+'A'
+>>> <b>symbols[1]</b>
+'A'
+>>> <b>symbols[2]</b>
+'P'
+>>> <b>symbols[-1]</b>        # Last character
+'O'
+>>> <b>symbols[-2]</b>        # Negative indices are from end of string
+'C'
+>>>
+</pre>
+</blockquote>
+
+<p>
+If you want, you can process strings character by character as an array.   Try it
+out by typing in the following statements which scan <tt>symbols</tt> until the
+the first space is found and stops:
+
+<blockquote>
+<pre>
+>>> <b>i = 0</b>
+>>> <b>while i &lt; len(symbols):</b>
+          <b>if symbols[i] == ' ':
+                break</b>     # Terminates the loop early
+          <b>i = i + 1</b>
+   
+>>> <b>i</b>
+4
+>>> <b>print symbols[0:i]</b>
+AAPL
+>>> <b>print symbols[:i]</b>  # first index is optional (defaults to beginning)
+AAPL
+>>> <b>print symbols[i:]</b>  # last index is option (defaults to end)
+ IBM MSFT YHOO SCO
+>>>
+</pre>
+</blockquote>
+
+<p>
+Just a friendly reminder.... if you are cutting and pasting commands into IDLE, you will
+need to copy each statement that appears after <tt>>>></tt> individually.
+<p>
+Note: the <tt>break</tt> statement in the above code is how you get out of a loop early.
+
+<P>
+<b>(b) Strings as read-only objects</b>
+
+<p>
+In Python, strings are read-only.   Verify this by trying to change the first character of <tt>symbols</tt> to a lower-case 'a'. 
+
+<blockquote>
+<pre>
+>>> <b>symbols[0] = 'a'</b>
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'str' object does not support item assignment
+>>> 
+</pre>
+</blockquote>
+
+<p>
+<b>(c) String concatenation</b>
+
+<p>
+Although string data is read-only, you can always reassign a variable to a newly created string.   
+Try the following statement which concatenates a new symbol "GOOG" to the end of <tt>symbols</tt>:
+
+<blockquote>
+<pre>
+>>> <b>symbols = symbols + 'GOOG'</b>             
+>>> <b>symbols</b>
+'AAPL IBM MSFT YHOO SCOGOOG'
+>>>
+</pre>
+</blockquote>
+
+<P>
+Oops!  That's not what we wanted.  Let's fix it:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>symbols = symbols[:-4]</b>        # All but last 4 chars
+>>> <b>symbols</b>
+'AAPL IBM MSFT YHOO SCO'
+>>> <b>symbols = symbols + ' GOOG'</b>   # Note the extra space
+>>> <b>symbols</b>
+'AAPL IBM MSFT YHOO SCO GOOG'
+>>> 
+</pre>
+</blockquote>
+
+Now, try adding "HPQ" to the beginning of <tt>symbols</tt> like this:
+
+<blockquote>
+<pre>
+>>> <b>symbols = 'HPQ ' + symbols</b>     
+>>> <b>symbols</b>
+... look at the result ...
+</pre>
+</blockquote>
+
+It should be noted in both of these examples, the original string <tt>symbols</tt> is <em>NOT</em>
+being modified "in place" (i.e., modifications don't overwrite the
+memory currently being used to to store the string contents).   Instead, a completely new string is created.  The variable name <tt>symbols</tt> is
+just reassigned to the new value.  Afterwards, the old string is destroyed since it's not being used anymore.
+
+<p>
+<b>(d) Membership testing (substring testing)</b>
+
+<p>
+Experiment with the <tt>in</tt> operator to check for substrings.  At
+the interactive prompt, try these operations:
+
+<blockquote>
+<pre>
+>>> <b>'IBM' in symbols</b>
+True
+>>> <b>'AA' in symbols</b>
+True
+>>> <b>'CAT' in symbols</b>
+False
+>>>
+</pre>
+</blockquote>
+
+Make sure you understand why the check for "AA" returned <tt>True</tt>.
+
+<p>
+<b>(e) String Methods</b>
+
+<p>
+At the Python interactive prompt, try experimenting with some of the
+string methods. 
+
+<blockquote>
+<pre>
+>>> <b>symbols.lower()</b>
+'hpq aapl ibm msft yhoo sco goog'
+>>> <b>symbols</b>       
+'HPQ AAPL IBM MSFT YHOO SCO GOOG'
+</pre>
+</blockquote>
+
+Remember, strings are always read-only.  If you want to save the result of an operation, you
+need to place it in a variable:
+
+<blockquote>
+<pre>
+>>> <b>lowersyms = symbols.lower()</b>
+>>> <b>lowersyms</b>
+'hpq aapl ibm msft yhoo sco goog'
+>>>
+</pre>
+</blockquote>
+
+<p>
+Try some more operations:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>symbols.find('MSFT')</b>
+13
+>>> <b>symbols[13:17]</b>
+'MSFT'
+>>> <b>symbols = symbols.replace('SCO','')</b>
+>>> <b>symbols</b>
+'HPQ AAPL IBM MSFT YHOO  GOOG'
+>>> <b>for c in symbols:</b>
+        <b>print 'c =', c</b>
+
+(look at the result)
+>>>
+</pre>
+</blockquote>
+
+<p>
+By the way, the <tt>for</tt> statement is what Python uses to iterate
+over the contents of something.  In the case of a string, it iterates
+over the individual letters--one at a time.
+</p>
+
+<hr>
+[ <a href="index.html">Index</a> | <a href="soln1_4.html">Solution</a>
+| <a href="ex1_3.html">Back</a> | <a href="ex1_5.html">Next</a> ]
+</body>
+</html>

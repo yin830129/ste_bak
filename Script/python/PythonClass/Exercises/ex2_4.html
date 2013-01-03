@@ -1,0 +1,333 @@
+<html>
+<head>
+<title>Python Training Exercises - Exercise 2.4</title>
+</head>
+
+<body>
+<h1>Exercise 2.4</h1>
+
+<table width=600 bgcolor="#e0e0ff" border=1 cellpadding=20>
+<tr>
+<td>
+<b>Objectives:</b>
+<ul>
+<li>Experiment with various sequence operations.
+<li>Learn how to use iteration features.
+<li>Continued practice with data handling.
+</ul>
+<p>
+<b>Files Created:</b> None. 
+
+<p>
+<b>Files Modified:</b> None.
+
+</td>
+</tr>
+</table>
+
+<p>
+<b>(a) Counting</b>
+</p>
+
+<p>
+Try some basic counting examples:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>for n in xrange(10):            # Count 0 ... 9
+       print n,</b>
+
+>>> <b>for n in xrange(10,0,-1):       # Count 10 ... 1
+       print n,</b>
+
+>>> <b>for n in xrange(0,10,2):        # Count 0, 2, ... 8
+       print n,</b>
+
+>>>
+</pre>
+</blockquote>
+
+<p>
+<b>(b) More sequence operations</b>
+
+<p>
+Interactively experiment with some of the sequence reduction operations:
+
+<blockquote>
+<pre>
+>>> <b>data = [4, 9, 1, 25, 16, 100, 49]</b>
+>>> <b>min(data)</b>
+1
+>>> <b>max(data)</b>
+100
+>>> <b>sum(data)</b>
+204
+>>>
+</pre>
+</blockquote>
+
+Try looping over the data:
+
+<blockquote>
+<pre>
+>>> <b>for x in data:</b>
+       <b>print x</b>
+   
+4
+9
+...
+>>> <b>for n,x in enumerate(data):</b>
+       <b>print n,x</b>
+   
+0 4
+1 9
+2 1
+...
+>>>
+</pre>
+</blockquote>
+
+<p>
+<b>(c) Another enumerate() example</b>
+
+<p>
+The file <tt>Data/portfolio3.dat</tt> contains data for a stock
+portfolio, but has some lines with missing data.  Try the following
+code sample that loops over all of the lines of the file, but prints a
+warning message for all bad lines along with the associated line number.
+</p>
+
+<blockquote>
+<pre>
+>>> <b>f = open("Data/portfolio3.dat")</b>
+>>> <b>for lineno, line in enumerate(f,1):
+           fields = line.split()
+           try:
+                name = fields[0]
+                shares = int(fields[1])
+                price = float(fields[2])
+           except ValueError:
+                print "Line %d: Couldn't parse: %s" % (lineno, line)</b>
+
+
+... look at the output ...
+>>>
+</pre>
+</blockquote>
+
+<p>
+In this example, the <tt>1</tt> argument to <tt>enumerate()</tt> sets
+the starting value for the count.  In this case, we're starting the
+count with line number 1. If you don't specify a starting value,
+<tt>enumerate()</tt> starts counting from 0.</p>
+
+<p>
+<b>(d) Using the zip() function</b>
+
+<p>
+The file <tt>Data/portfolioh.dat</tt> contains stock portfolio data, but with one little
+twist--the first line of the file contains column headers.  For example:
+
+<blockquote>
+<pre>
+name shares price
+AA 100 32.20
+IBM 50 91.10
+...
+</pre>
+</blockquote>
+
+<p>
+Let's say you wanted to write some scripts that processed the data,
+but you were only interested in a few specific headers regardless of
+which column they were in.   This is a perfect opportunity to use
+<tt>zip()</tt>.  Let's illustrate.
+</p>
+
+<p>
+First, open the file, read the first line, and split into a list:
+
+<blockquote>
+<pre>
+>>> <b>f = open("Data/portfolioh.dat")</b>
+>>> <b>line = next(f)</b>
+>>> <b>column_names = line.split()</b>
+>>> <b>column_names</b>
+['name', 'shares', 'price']
+>>>
+</pre>
+</blockquote>
+
+<p>
+Now, read the <em>next</em> line of the file and split into a list of fields:
+</p>
+<blockquote>
+<pre>
+>>> <b>line = next(f)</b>
+>>> <b>fields = line.split()</b>
+>>> <b>fields</b>
+['AA', '100', '32.20']
+>>>
+</pre>
+</blockquote>
+
+<p>
+Now, try using <tt>zip()</tt> to pair the column headers with the
+fields.
+</p>
+
+<blockquote>
+<pre>
+>>> <b>values = zip(column_names,fields)</b>
+>>> <b>values</b>
+... look at the results ...
+>>>
+</pre>
+</blockquote>
+
+<p>
+Let's use <tt>zip()</tt> to make a dictionary:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>d = dict(zip(column_names,fields))</b>
+>>> <b>d</b>
+... look at the result ...
+>>>
+</pre>
+</blockquote>
+
+<p>
+Now, let's define a simple function to compute the cost of a
+portfolio (similar to that in <a href="ex1_7.html">Exercise 1.7</a>):
+</p>
+
+<blockquote>
+<pre>
+>>> <b>def portfolio_cost(filename):
+        f = open(filename)
+        headers = next(f).split()
+        total = 0.0
+        for line in f:
+            fields = line.split()
+            d = dict(zip(headers,fields))
+            total += int(d['shares'])*float(d['price'])
+        f.close()
+        return total</b>
+
+>>>
+</pre>
+</blockquote>
+
+<p>
+Try your function on a few different data files:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>portfolio_cost("Data/portfolioh.dat")</b>
+44671.15
+>>> <b>portfolio_cost("Data/portfoliodate.dat")</b>
+44671.15
+>>> <b>print open("Data/portfoliodate.dat").read()</b>
+name date time shares price
+AA 6/11/2007 9:50am 100 32.20
+IBM 5/13/2007 4:20pm 50 91.10
+CAT 9/23/2006 1:30pm 150 83.44
+MSFT 5/17/2007 10:30am 200 51.23
+GE 2/1/2006 10:45am 95 40.37
+MSFT 10/31/2006 12:05pm 50 65.10
+IBM 7/9/2006 3:15pm 100 70.44
+>>>
+</pre>
+</blockquote>
+
+<p>
+Carefully observe that the function still worked on the
+<tt>portfoliodate.dat</tt> file even though the "shares" and "price"
+columns shifted.</p>
+
+
+<p>
+<b>(d) Inverting a dictionary</b>
+</p>
+
+<p>
+A dictionary maps keys to values.   For example, a dictionary of stock
+prices:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>prices = {
+        'GOOG' : 490.1,
+        'AA' : 23.45,
+        'IBM' : 91.1,
+        'MSFT' : 34.23
+    }</b>
+>>>
+</pre>
+</blockquote>
+
+<p>
+If you use the <tt>items()</tt> method, you can get a list of
+<tt>(key,value)</tt> pairs:</p>
+
+<blockquote>
+<pre>
+>>> <b>prices.items()</b>
+[('GOOG', 490.1), ('AA', 23.45), ('IBM', 91.1), ('MSFT', 34.23)]
+>>>
+</pre>
+</blockquote>
+
+<p>
+However, what if you wanted to get a list of <tt>(value, key)</tt>
+pairs instead?  Easy: use <tt>zip()</tt>.
+</p>
+
+<blockquote>
+<pre>
+>>> <b>pricelist = zip(prices.values(),prices.keys())</b>
+>>> <b>pricelist</b>
+[(490.1, 'GOOG'), (23.45, 'AA'), (91.1, 'IBM'), (34.23, 'MSFT')]
+>>>
+</pre>
+</blockquote>
+
+<p>
+Why would you do this?  For one, it allows you to perform certain
+kinds of data processing on the dictionary data.   For example:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>min(pricelist)</b>
+(23.45, 'AA')
+>>> <b>max(pricelist)</b>
+(490.1, 'GOOG')
+>>> <b>sorted(pricelist)</b>
+[(23.45, 'AA'), (34.23, 'MSFT'), (91.1, 'IBM'), (490.1, 'GOOG')]
+>>>
+</pre>
+</blockquote>
+
+<p>
+This also illustrates an important feature of tuples.  When used in
+comparisons, tuples are compared element-by-element starting with the
+first item (similar to how strings are compared character-by-character).
+</p>
+
+<p>
+<b>General discussion:</b> <tt>zip()</tt> is often used in situations like this where you need to pair up data
+from different places.  For example, pairing up the column names with column values in order to make a dictionary
+of named values.
+
+<hr>
+
+[ <a href="index.html">Index</a> | <a href="soln2_4.html">Solution</a>
+| <a href="ex2_3.html">Back</a> | <a href="ex2_5.html">Next</a> ]
+</body>
+</html>

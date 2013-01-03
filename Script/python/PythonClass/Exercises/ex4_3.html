@@ -1,0 +1,206 @@
+<html>
+<head>
+<title>Python Training Exercises - Exercise 4.3</title>
+</head>
+
+<body>
+<h1>Exercise 4.3</h1>
+
+<table width=600 bgcolor="#e0e0ff" border=1 cellpadding=20>
+<tr>
+<td>
+<b>Objectives:</b>
+<ul>
+<li>Learn how to perform common file system operations</li>
+<li>Learn how to launch subprocesses</li>
+</ul>
+
+<p>
+<b>Files Created:</b> None
+</p>
+
+<p>
+<b>Files Modified:</b> <tt>report.py</tt>
+
+</td>
+</tr>
+</table>
+
+<p>
+In this exercise, we're simply going to look at some of the modules
+used for performing common tasks on the system such as working with
+files, directories, launching subprocesses, and so forth.   These are
+tasks that might be normally written in shell scripts.
+</p>
+
+<p>
+<b>(a) Manipulating filenames</b>
+</p>
+
+<p>
+Start by putting a filename in a string:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>filename = "Data/portfolio.dat"</b>
+>>>
+</pre>
+</blockquote>
+
+<p>
+In many programs, you might need to perform various actions involving
+file and pathnames.  More often than not, you use the <tt>os.path</tt>
+module for this. Let's try some operations:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>import os.path</b>
+>>> <b>os.path.basename(filename)</b>      # Get basic filename
+'portfolio.dat'
+>>> <b>os.path.dirname(filename)</b>       # Get the path
+'Data'
+>>> <b>os.path.abspath(filename)</b>       # Get absolute path (output varies)
+'/Users/beazley/Desktop/PythonClass/Data/portfolio.dat'
+>>>
+</pre>
+</blockquote>
+
+<p>
+Let's probe the file a bit:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>os.path.exists(filename)</b>
+True
+>>> <b>os.path.isfile(filename)</b>
+True
+>>> <b>os.path.isdir(filename)</b>
+False
+>>> <b>os.path.getsize(filename)</b>
+95L
+>>> <b>os.path.getmtime(filename)</b>
+1248789706.0
+>>> <b>import time</b>
+>>> <b>time.ctime(os.path.getmtime(filename))</b>
+'Tue Jul 28 09:01:46 2009'
+>>>
+</pre>
+</blockquote>
+
+<p>
+Let's change the filename so that it's in a different directory.
+</p>
+
+<blockquote>
+<pre>
+>>> <b>os.path.join("NewData",os.path.basename(filename))</b>
+'NewData/portfolio.dat'
+>>>
+</pre>
+</blockquote>
+
+<p>
+<b>(b) Finding files on the file system</b>
+</p>
+
+<p>
+The library module <tt>glob</tt> has a function <tt>glob()</tt> that
+returns a list of filenames that match a given shell pattern. For example,
+to get a list of all <tt>.py</tt> files in the current directory, you
+do this:</p>
+
+<blockquote>
+<pre>
+>>> <b>import glob</b>
+>>> <b>glob.glob("*.py")</b>
+[ 'bounce.py', 'hello.py', 'mortgage.py', 'sears.py', ... ]
+>>>
+</pre>
+</blockquote>
+
+<p>
+If you need to search through many directories, use the
+<tt>os.walk()</tt> function.  Try this example which prints all
+Python files under the current working directory:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>import os</b>
+>>> <b>for path, dirs, files in os.walk("."):
+        for filename in files:
+             if filename.endswith(".py"):
+                  print os.path.join(path, filename)</b>
+
+... look at the output ...
+>>>
+</pre>
+</blockquote>
+
+<p>
+<b>(c) Running a Subprocess</b>
+</p>
+
+<p>
+Use the subprocess module to run the external command "netstat -a" and
+collect the output in a string.   This should work on both Unix and Windows.</p>
+
+<blockquote>
+<pre>
+>>> <b>import subprocess</b>
+>>> <b>out = subprocess.check_output(['netstat','-a'])</b>
+>>> <b>print out</b>
+... you should see the output of netstat -a here ...
+>>>
+</pre>
+</blockquote>
+
+<p>
+Note: If you're using Python 2.6 or earlier, you'll need to use this
+instead:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>import subprocess</b>
+>>> <b>p = subprocess.Popen(['netstat','-a'],stdout=subprocess.PIPE)</b>
+>>> <b>out = p.stdout.read()</b>
+>>> <b>print out</b>
+... you should see the output of netstat -a here ...
+>>>
+</pre>
+</blockquote>
+
+<p>
+<b>(d) Command Line Options</b>
+</p>
+
+<p>
+Modify your <tt>report.py</tt> program so that it runs as a script and
+accepts the two filenames on the command line.  For example:
+</p>
+
+<blockquote>
+<pre>
+bash % <b>python report.py Data/portfolio.dat Data/prices.csv</b>
+      Name     Shares      Price     Change 
+---------- ---------- ---------- ---------- 
+        AA        100       9.22     -22.98
+       IBM         50     106.28      15.18
+       CAT        150      35.46     -47.98
+      MSFT        200      20.89     -30.34
+        GE         95      13.48     -26.89
+      MSFT         50      20.89     -44.21
+       IBM        100     106.28      35.84
+bash %
+</pre>
+</blockquote>
+
+<hr>
+[ <a href="index.html">Index</a> | <a href="soln4_3.html">Solution</a>
+| <a href="ex4_2.html">Back</a> | <a href="ex4_4.html">Next</a> ]
+</body>
+</html>

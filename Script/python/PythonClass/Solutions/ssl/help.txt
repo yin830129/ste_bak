@@ -1,0 +1,12 @@
+1. How to make a key
+
+% ssh-keygen 
+
+2. How to make a certificate request
+
+% openssl req -new -key privkey.pem -out cert.csr
+
+3. How to make a certificate
+
+% openssl ca -config ca.conf -notext -out cert.crt -infiles cert.csr
+

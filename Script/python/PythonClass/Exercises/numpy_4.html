@@ -1,0 +1,117 @@
+<html>
+<head>
+<title>Python Training Exercises - Numpy.4</title>
+</head>
+
+<body>
+<h1>Exercise Numpy.4</h1>
+
+<table width=600 bgcolor="#e0e0ff" border=1 cellpadding=20>
+<tr>
+<td>
+<b>Objectives:</b>
+<ul>
+  <li>Perform a calculation involving a conditional</li>
+  <li>Perform an operation on grid points</li>
+</ul>
+
+<p>
+<b>Files Created:</b> None</p>
+
+<p>
+<b>Files Modified:</b> None</p>
+
+</td>
+</tr>
+</table>
+
+<p>
+<b>(a) Conditional Evaluation</b>
+</p>
+
+<p>
+Start by creating an array representing a range of values from -5 to
+5.</p>
+
+<blockquote>
+<pre>
+>>> <b>a = numpy.random.uniform(-1,1,10)</b>
+>>> <b>a</b>
+array([ 0.37933235, -0.12286626, -0.24445765,  0.85411263,  0.66843112,
+       -0.14355917, -0.57310431,  0.65532876,  0.39393187, -0.37267529])
+>>>
+</pre>
+</blockquote>
+
+<p>
+Perform a calculation:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>numpy.sqrt(a)</b>
+array([ 0.61589963,         NaN,         NaN,  0.92418214,  0.81757637,
+               NaN,         NaN,  0.80952378,  0.62763992,         NaN])
+>>> 
+</pre>
+</blockquote>
+
+<p>Instead of NaN, suppose you wanted to have all of the negative
+values evaluate to 0.   Try this:</p>
+
+<blockquote>
+<pre>
+>>> <b>a < 0</b>
+array([False,  True,  True, False, False,  True,  True, False, False,  True], dtype=bool)
+>>> <b>numpy.where(a<0, 0, numpy.sqrt(a))</b>
+array([ 0.61589963,  0.        ,  0.        ,  0.92418214,  0.81757637,
+        0.        ,  0.        ,  0.80952378,  0.62763992,  0.        ])
+>>>
+</pre>
+</blockquote>
+
+<p>
+<b>(b) Operations on neighboring points</b>
+</p>
+
+<p>
+In the previous exercise, you computed following:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>xpts = numpy.arange(-2,2,0.25)</b>
+>>> <b>xpts</b>
+array([-2.  , -1.75, -1.5 , -1.25, -1.  , -0.75, -0.5 , -0.25,  0.  ,
+        0.25,  0.5 ,  0.75,  1.  ,  1.25,  1.5 ,  1.75])
+>>> <b>ypts = 2*numpy.cos(2*xpts)-3.5*numpy.sin(3*xpts)</b>
+>>> <b>ypts</b>
+array([-2.28524149, -4.8791841 , -5.40134041, -3.60275185, -0.33837364,
+        2.86473059,  4.57183706,  4.14090078,  2.        , -0.63057054,
+       -2.41062784, -2.58178179, -1.3262137 ,  0.39817738,  1.44137042,
+        1.13335735])
+>>> 
+</pre>
+</blockquote>
+
+<p>
+Approximate the derivative of the function values in <tt>ypts</tt>
+doing this calculation (equivalent to (f(x+dx)-f(x))/dx):</p>
+
+<blockquote>
+<pre>
+>>> <b>dypts = (ypts[1:] - ypts[:-1])/(xpts[1:] - xpts[:-1])</b>
+>>> <b>dypts</b>
+array([-10.37577046,  -2.08862521,   7.19435423,  13.05751281,
+        12.81241695,   6.82842589,  -1.72374512,  -8.56360314,
+       -10.52228215,  -7.12022922,  -0.68461578,   5.02227234,
+         6.89756434,   4.17277214,  -1.23205226])
+>>>
+</pre>
+</blockquote>
+
+<hr>
+[ <a href="index.html">Index</a>
+| <a href="numpy_3.html">Back</a> | <a href="numpy_5.html">Next</a> ]
+</body>
+</html>

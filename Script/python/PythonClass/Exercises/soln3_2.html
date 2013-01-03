@@ -1,0 +1,114 @@
+<html>
+<head>
+<title>Python Training Exercises</title>
+</head>
+
+<body>
+<h1>Exercise 3.2 - Solution</h1>
+
+<b>(a) A General Purpose Parsing Function</b>
+
+<pre>
+# fieldparse.py
+
+def parse(lines,types,names):
+    '''
+    Parse a line of column oriented data into a list of dictionaries
+    with type conversion.
+    '''
+    records = []
+    for line in lines:
+        fields = line.split()
+
+        # Apply type conversion to the fields 
+        cfields = [converter(value) for converter,value in zip(types,fields)]
+
+        # Turn into a dictionary of named fields
+        record = dict(zip(names,cfields))
+
+        # Save the record
+        records.append(record)
+
+    return records
+</pre>
+
+<hr>
+<b>(b) Making Some Parsing Enhancements</b>
+</p>
+
+
+<pre>
+# fieldparse.py
+
+def parse(lines,types,names):
+    '''
+    Parse a line of column oriented data into a list of dictionaries
+    with type conversion.
+    '''
+    records = []
+    for line in lines:
+<font color="#0000ff">        # Strip whitespace and ignore blank lines
+        line = line.strip()
+        if line == '':
+            continue</font>
+
+        fields = line.split()
+        
+<font color="#0000ff">        # Get rid of double quotes
+        fields = [f.strip('"') for f in fields]</font>
+        
+        # Apply type conversion to the fields 
+        cfields = [converter(value) for converter,value in zip(types,fields)]
+
+        # Turn into a dictionary of named fields
+        record = dict(zip(names,cfields))
+
+        # Save the record
+        records.append(record)
+
+    return records
+</pre>
+
+<hr>
+
+<b>(c) Default Arguments</b>
+
+<pre>
+# fieldparse.py
+
+def parse(lines,types,<font color="#0000ff">names=None,sep=None</font>):
+    '''
+    Parse a line of column oriented data into a list of dictionaries
+    <font color="#0000ff">or tuples</font> with type conversion.
+    '''
+    records = []
+    for line in lines:
+        # Strip whitespace and ignore blank lines
+        line = line.strip()
+        if line == '':
+            continue
+
+<font color="#0000ff">        fields = line.split(sep)</font>
+        
+        # Get rid of double quotes
+        fields = [f.strip('"') for f in fields]
+        
+        # Apply type conversion to the fields 
+        cfields = [converter(value) for converter,value in zip(types,fields)]
+<font color="#0000ff">
+        # Optionally turn into a dictionary of named fields
+        if names is not None:
+            record = dict(zip(names,cfields))
+        else:
+            record = tuple(cfields)</font>
+
+        # Save the record
+        records.append(record)
+
+    return records
+</pre>
+
+<hr>
+[ <a href="ex3_2.html">Back</a> ]
+</body>
+</html>

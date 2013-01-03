@@ -1,0 +1,196 @@
+<html>
+<head>
+<title>Python Training Exercises - Exercise 4.2</title>
+</head>
+
+<body>
+<h1>Exercise 4.2</h1>
+
+<table width=600 bgcolor="#e0e0ff" border=1 cellpadding=20>
+<tr>
+<td>
+<b>Objectives:</b>
+<ul>
+<li>Learn more about module imports</li>
+<li>Learn about monkeypatching</li>
+</ul>
+<b>Files Created: <tt>None</tt></b>
+
+<p>
+<b>Files Modified:</b> None
+
+</td>
+</tr>
+</table>
+
+<p>
+<b>(a) Different kinds of imports</b>
+</p>
+
+<p>
+Consider the <tt>math</tt> module.  Here is the most basic form of
+import:</p>
+
+<blockquote>
+<pre>
+>>> <b>import math</b>
+>>> <b>math.sin(2)</b>
+0.9092974268256817
+>>> <b>math.sqrt(2)</b>
+1.4142135623730951
+>>> 
+</pre>
+</blockquote>
+
+<p>
+You can change the name of the used module as follows:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>import math as m</b>
+>>> <b>m.sin(2)</b>
+0.9092974268256817
+>>> <b>m.sqrt(2)</b>
+1.4142135623730951
+>>> 
+</pre>
+</blockquote>
+
+<p>
+If you don't want to keeping typing the module name, use this form of import:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>from math import sin, sqrt</b>
+>>> <b>sin(2)</b>
+0.9092974268256817
+>>> <b>sqrt(2)</b>
+1.4142135623730951
+>>> 
+</pre>
+</blockquote>
+
+<p>
+<b>(b) Modules as Objects</b>
+</p>
+
+<p>
+New Python programmers often find it surprising that the contents of a
+library module can be freely manipulated as data.  Play around with this
+a bit by modifying the contents of the <tt>math</tt> module:
+</p>
+
+<p>
+<blockquote>
+<pre>
+>>> <b>import math</b>
+>>> <b>math.two = 2</b>      # Insert a new definition
+>>> <b>def sin(x):
+        return x</b>
+>>> <b>math.sin = sin</b>    # Replace sin definition
+>>> <b>math.sin(4)</b>
+4
+>>> <b>del math.sin</b>      # Delete altogether
+>>> <b>math.sin(2)</b>  # Delete an item from a module
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'module' object has no attribute 'sin'
+>>> 
+</pre>
+</blockquote>
+
+<p>
+As you see, there is very little in the way of restrictions--you are
+free to add to a module, change existing definitions, and more.</p>
+
+<p>
+<b>(c) Monkeypatching</b>
+</p>
+
+<p>
+Modifying the contents of an existing module is not something that
+normally comes up in practice.  However, every now and then it can be
+a convenient way to inject extra code or change the behavior of an existing module without
+having to modify its source code--a process that is sometimes referred
+to as "monkeypatching."</p>
+
+<p>
+Consider your <tt>report.py</tt> program that produced a table.
+First, make sure it still runs:</p>
+
+<p>
+<blockquote>
+<pre>
+>>> <b>import report</b>
+>>> <b>report.portfolio_report("Data/portfolio.dat","Data/prices.csv")</b>
+      Name     Shares      Price     Change 
+---------- ---------- ---------- ---------- 
+        AA        100      39.91       7.71
+       IBM         50     106.11      15.01
+       CAT        150      78.58      -4.86
+      MSFT        200      30.47     -20.76
+        GE         95      37.38      -2.99
+      MSFT         50      30.47     -34.63
+       IBM        100     106.11      35.67
+>>>
+</pre>
+</blockquote>
+<p>
+If you look at the source code to <tt>report.py</tt>, you will find
+that it is hard-wired to use the built-in <tt>open()</tt> function.
+This greatly restricts its ability to work with other file encodings
+(e.g., .gz files) or data downloaded from the web.</p>
+
+<p>
+Let's "hack" the module to make it work with <tt>.gz</tt> files.
+First, define the following function:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>import gzip</b>
+>>> <b>def myopen(filename,mode='r'):
+           if filename.endswith(".gz"):
+                return gzip.open(filename,mode)
+           else:
+                return open(filename,mode)</b>
+
+>>>
+</pre>
+</blockquote>
+
+<p>
+Now, let's inject it into the <tt>report.py</tt> module:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>import report</b>
+>>> <b>report.open = myopen</b>
+>>>
+>>> <b>report.portfolio_report("Data/portfolio.gz","Data/prices.csv")</b>
+     Name     Shares      Price     Change 
+---------- ---------- ---------- ---------- 
+        AA        100       9.22     -22.98
+       IBM         50     106.28      15.18
+       CAT        150      35.46     -47.98
+      MSFT        200      20.89     -30.34
+        GE         95      13.48     -26.89
+      MSFT         50      20.89     -44.21
+       IBM        100     106.28      35.84
+
+>>>
+</pre>
+</blockquote>
+
+<P>
+Yes, you should be very disturbed by this example.
+</p>
+
+<hr>
+[ <a href="index.html">Index</a> | <a href="soln4_2.html">Solution</a>
+| <a href="ex4_1.html">Back</a> | <a href="ex4_3.html">Next</a> ]
+</body>
+</html>

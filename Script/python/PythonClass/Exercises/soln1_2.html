@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>Python Training Exercises</title>
+</head>
+
+<body>
+<h1>Exercise 1.2 - Solution</h1>
+
+<P>
+<b>(a) The Bouncing Ball</b>
+
+<pre>
+# bounce.py
+height = 100
+bounce = 1
+while bounce &lt;= 10:
+    height = height * (3.0/5)
+    print bounce, height
+    bounce += 1
+</pre>
+
+<b>Commentary</b>
+
+<p>
+This example illustrates one potential pitfall with mathematical
+calculations in Python---truncation of integer division.  For example,
+if you use (3/5) instead of (3.0/5) above, you will find that the
+calculation is meaningless as 3/5 evaluates to 0.  This behavior
+of division is considered to be one of the largest design warts in Python and
+is being changed in Python 3.
+
+<hr>
+[ <a href="ex1_2.html">Back</a> ]
+</body>
+</html>

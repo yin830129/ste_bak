@@ -1,0 +1,337 @@
+<html>
+<head>
+<title>Python Training Exercises - Exercise 6.1</title>
+</head>
+
+<body>
+<h1>Exercise 6.1</h1>
+
+<table width=600 bgcolor="#e0e0ff" border=1 cellpadding=20>
+<tr>
+<td>
+<b>Objectives:</b>
+<ul>
+<li>Learn more about how objects are represented.
+<li>Learn how attribute assignment and lookup works.
+<li>Better understand the role of a class definition
+</ul>
+<p>
+<b>Files Created:</b> None
+
+<p>
+<b>Files Modified:</b> None
+
+</td>
+</tr>
+</table>
+
+<p>
+In <a href="ex5_1.html">Exercise 5.1</a>, you defined a class <tt>Stock</tt> that represented a holding of stock.  In this exercise,
+we will use that class.  So, restart the Python shell and perform these steps:
+
+<blockquote>
+<pre>
+>>> ================================ RESTART ================================
+>>> <b>from stock import Stock</b>
+>>> <b>goog = Stock('GOOG',100,490.10)</b>
+>>> <b>ibm  = Stock('IBM',50, 91.23)</b>
+>>>
+</pre>
+</blockquote>
+
+<p>
+
+<b>(a) Representation of Instances</b>
+
+<p>
+At the interactive shell, inspect the underlying dictionaries of the two instances you created:
+
+
+<blockquote>
+<pre>
+>>> <b>goog.__dict__</b>
+... look at the output ...
+>>> <b>ibm.__dict__</b>
+... look at the output ...
+>>>
+</pre>
+</blockquote>
+
+<p>
+<b>(b) Modification of Instance Data</b>
+
+<p>
+Try setting a new attribute on one of the above instances:
+
+<blockquote>
+<pre>
+>>> <b>goog.date = "6/11/2007"</b>
+>>> <b>goog.__dict__</b>
+... look at output ...
+>>> <b>ibm.__dict__</b>
+... look at output ...
+>>>
+</pre>
+</blockquote>
+
+In the above output, you'll notice that the <tt>goog</tt> instance has a attribute <tt>date</tt> whereas the <tt>ibm</tt> instance does not.
+It is important to note that Python really doesn't place any restrictions on attributes.  For example, the attributes of an instance are not
+limited to those set up in the <tt>__init__()</tt> method.
+
+<p>
+Instead of setting an attribute, try placing a new value directly into the <tt>__dict__</tt> object:
+
+<blockquote>
+<pre>
+>>> <b>goog.__dict__['time'] = '9:45am'</b>
+>>> <b>goog.time</b>
+'9:45am'
+>>>
+</pre>
+</blockquote>
+
+<p>
+Here, you really notice the fact that an instance is just a layer on
+top of a dictionary.  Note: it should be emphasized that direct
+manipulation of the dictionary is uncommon--you should always write
+your code to use the (.) syntax. </p>
+
+<p>
+<b>(c) The role of classes</b>
+
+<p>
+The definitions that make up a class definition are shared by all instances of that class.  Notice, that all
+instances have a link back to their associated class:
+
+<blockquote>
+<pre>
+>>> <b>goog.__class__</b>
+... look at output ...
+>>> <b>ibm.__class__</b>
+... look at output ...
+>>> 
+</pre>
+</blockquote>
+
+Try calling a method on the instances:
+
+<blockquote>
+<pre>
+>>> <b>goog.cost()</b>
+49010.0
+>>> <b>ibm.cost()</b>
+4561.5
+>>>
+</pre>
+</blockquote>
+
+Notice that the name 'cost' is not defined in either <tt>goog.__dict__</tt> or <tt>ibm.__dict__</tt>.   Instead, it is being supplied by the
+class dictionary.  Try this:
+
+<blockquote>
+<pre>
+>>> <b>Stock.__dict__['cost']</b>
+... look at output ...
+>>>
+</pre>
+</blockquote>
+
+Try calling the <tt>cost()</tt> method directly through the dictionary:
+
+<blockquote>
+<pre>
+>>> <b>Stock.__dict__['cost'](goog)</b>
+49010.0
+>>> <b>Stock.__dict__['cost'](ibm)</b>
+4561.5
+>>>
+</pre>
+</blockquote>
+
+<p>
+Notice how you are calling the function defined in the class definition and how the <tt>self</tt> argument
+gets the instance.
+</p>
+
+<p>
+Try adding a new attribute to the <tt>Stock</tt> class:
+
+<blockquote>
+<pre>
+>>> <b>Stock.foo = 42</b>
+>>>
+</pre>
+</blockquote>
+Notice how this new attribute now shows up on all of the instances:
+
+<blockquote>
+<pre>
+>>> <b>goog.foo</b>
+42
+>>> <b>ibm.foo</b>
+42
+>>>
+</pre>
+</blockquote>
+
+However, notice that it is not part of the instance dictionary:
+
+<blockquote>
+<pre>
+>>> <b>goog.__dict__</b>
+... look at output and notice there is no 'foo' attribute ...
+>>>
+</pre>
+</blockquote>
+
+The reason you can access the <tt>foo</tt> attribute on instances is that Python always checks
+the class dictionary if it can't find something on the instance itself.
+
+<p>
+Setting a variable in the class itself is one way to set a default value for attributes.
+For example, what happens here?
+
+<blockquote>
+<pre>
+>>> <b>goog.foo = 13</b>
+>>> <b>goog.foo</b>
+13
+>>> <b>ibm.foo</b>
+... look at output ...
+>>> <b>Stock.foo</b>
+... look at output ...
+>>> <b>goog.__dict__</b>
+... look at the output (and notice that 'foo':13 is there) ...
+>>> <b>del goog.foo</b>
+>>> <b>goog.foo</b>
+... look at output ...
+>>>
+</pre>
+</blockquote>
+
+In this last part, the assignment to <tt>goog.foo</tt> put an entry in the dictionary for
+<tt>goog</tt>---hiding the value in the class.   When you delete the attribute at the end, you 
+are removing it from the local dictionary.  This makes the class definition visible again.
+
+<p>
+<b>Note on class variables:</b>
+</p>
+
+<p>
+This part of the exercise illustrates something known as a class
+variable.  Suppose, for instance, you have a class like this:
+</p>
+
+<blockquote>
+<pre>
+class Foo(object):
+     a = 13                  # Class variable
+     def __init__(self,b):
+         self.b = b          # Instance variable
+</pre>
+</blockquote>
+
+<p>
+In this class, the variable <tt>a</tt>, assigned in the body of the
+class itself, is a "class variable."  It is shared by all of the
+instances that get created.  For example:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>f = Foo(10)</b>
+>>> <b>g = Foo(20)</b>
+>>> <b>f.a</b>          # Inspect the class variable (same for both instances)
+13
+>>> <b>g.a</b>
+13
+>>> <b>f.b</b>          # Inspect the instance variable (differs)
+10
+>>> <b>g.b</b>
+20
+>>> <b>Foo.a = 42</b>   # Change the value of the class variable
+>>> <b>f.a</b>
+42
+>>> <b>g.a</b>
+42
+>>>
+</pre>
+</blockquote>
+
+<p>
+<b>(d) Bound methods</b>
+</p>
+
+<p>
+A subtle feature of Python is that invoking a method actually involves
+two steps and something known as a bound method.   For example:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>s = goog.sell</b>
+>>> <b>s</b>
+&lt;bound method Stock.sell of Stock('GOOG',100,490.1)>
+>>> <b>s(25)</b>
+75
+>>> 
+</pre>
+</blockquote>
+
+<p>
+Bound methods actually contain all of the pieces needed to call a
+method.  For instance, they keep a record of the function implementing
+the method:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>s.im_func</b>
+&lt;function sell at 0x10049af50>
+>>>
+</pre>
+</blockquote>
+
+<p>
+This is the same value as found in the <tt>Stock</tt> dictionary.
+</p>
+
+<blockquote>
+<pre>
+>>> <b>Stock.__dict__['sell']</b>
+&lt;function sell at 0x10049af50>
+>>>
+</pre>
+</blockquote>
+
+<p>
+Bound methods also record the instance, which is the <tt>self</tt>
+argument.
+</p>
+
+<blockquote>
+<pre>
+>>> <b>s.im_self</b>
+Stock('GOOG',75,490.1)
+>>>
+</pre>
+</blockquote>
+
+<p>
+When you invoke the function using <tt>()</tt> all of the pieces come
+together.  For example, calling <tt>s(25)</tt> actually does this:
+</p>
+
+<blockquote>
+<pre>
+>>> <b>s.im_func(s.im_self, 25)</b>    # Same as s(25)
+50
+>>>
+</pre>
+</blockquote>
+
+<hr>
+[ <a href="index.html">Index</a> | <a href="soln6_1.html">Solution</a>
+| <a href="ex5_3.html">Back</a> | <a href="ex6_2.html">Next</a> ]
+</body>
+</html>

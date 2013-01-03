@@ -1,0 +1,80 @@
+<html>
+<head>
+<title>Python Training Exercises</title>
+</head>
+
+<body>
+<h1>Exercise 5.1 - Solution</h1>
+
+<b>(a) Objects as a Data Structure</b>
+
+<pre>
+# stock.py
+
+class Stock(object):
+    '''
+    An instance of a stock holding consisting of name, shares, and price.
+    '''
+    def __init__(self,name,shares,price):
+        self.name   = name
+        self.shares = shares
+        self.price  = price
+</pre>
+
+<hr>
+
+<b>(b) Reading Data into a List of Objects</b>
+
+<pre>
+# stock.py
+...
+
+def read_portfolio(filename):
+    '''                                                                                                                    
+    Read a portfolio file into a list of stock instances.                                                                  
+    '''
+    portfolio = []
+    for line in open(filename):
+        fields = line.split()
+        holding = Stock(fields[0],int(fields[1]),float(fields[2]))
+        portfolio.append(holding)
+    return portfolio
+</pre>
+
+<hr>
+
+<p><b>(c) Adding some methods</b>
+
+<p>
+<pre>
+# stock.py
+
+class Stock(object):
+    '''
+    An instance of a stock holding consisting of name, shares, and price.
+    '''
+    def __init__(self,name,shares,price):
+        self.name   = name
+        self.shares = shares
+        self.price  = price
+
+    def cost(self):
+        '''
+        Return the cost as shares*price
+        '''
+        return self.shares*self.price
+
+    def sell(self,nshares):
+        '''
+        Sell a number of shares and return the remaining number.
+        '''
+        self.shares -= nshares
+        return self.shares
+...
+</pre>
+
+<hr>
+
+[ <a href="ex5_1.html">Back</a> ]
+</body>
+</html>
